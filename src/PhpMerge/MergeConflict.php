@@ -14,7 +14,7 @@ namespace PhpMerge;
  * Class MergeConflict
  *
  * This represents a merge conflict it includes the lines of the original and
- * both variations as wel as the index on the original text where the conflict
+ * both variations as well as the index on the original text where the conflict
  * starts.
  *
  * @package    PhpMerge
