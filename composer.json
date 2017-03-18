@@ -1,8 +1,8 @@
 {
     "name": "bircher/php-merge",
     "type": "library",
-    "description": "A PHP merge utility using the Diff php library or the command line git.",
-    "keywords": ["git", "merge"],
+    "description": "A PHP merge utility using the Diff php library, the command line git or xdiff.",
+    "keywords": ["git", "merge", "xdiff"],
     "homepage": "https://github.com/bircher/php-merge",
     "license": "MIT",
     "authors": [
