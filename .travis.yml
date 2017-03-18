@@ -10,6 +10,5 @@ php:
 
 before_script:
   - git --version
-  - pecl install xdiff
   - composer install --prefer-dist --dev
 
