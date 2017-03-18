@@ -31,7 +31,7 @@ use SebastianBergmann\Diff\Differ;
  * @link      http://github.com/bircher/php-merge
  * @category  library
  */
-class GitMerge extends PhpMergeBase
+class GitMerge extends PhpMergeBase implements PhpMergeInterface
 {
 
     /**
@@ -59,12 +59,6 @@ class GitMerge extends PhpMergeBase
      * @var string
      */
     protected $conflict;
-
-    /**
-     * The merge strategy
-     * @var array|null
-     */
-    protected $strategy;
 
     /**
      * {@inheritdoc}
@@ -344,7 +338,6 @@ class GitMerge extends PhpMergeBase
         $this->git->config('user.name', 'GitMerge')
             ->config('user.email', 'gitmerge@php-merge.example.com')
             ->config('merge.conflictStyle', 'diff3');
-        $this->strategy = null;
     }
 
     /**
@@ -378,5 +371,4 @@ class GitMerge extends PhpMergeBase
     {
         $this->cleanup();
     }
-
 }

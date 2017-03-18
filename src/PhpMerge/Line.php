@@ -82,5 +82,4 @@ class Line extends DiffLine
         }
         return $lines;
     }
-
 }

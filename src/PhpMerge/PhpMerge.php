@@ -10,7 +10,6 @@
 
 namespace PhpMerge;
 
-
 use SebastianBergmann\Diff\Differ;
 
 /**
@@ -27,7 +26,7 @@ use SebastianBergmann\Diff\Differ;
  * @version    Release: @package_version@
  * @link       http://github.com/bircher/php-merge
  */
-class PhpMerge extends PhpMergeBase
+class PhpMerge extends PhpMergeBase implements PhpMergeInterface
 {
 
     /**
@@ -50,7 +49,7 @@ class PhpMerge extends PhpMergeBase
 
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function merge($base, $remote, $local)
     {
@@ -77,7 +76,7 @@ class PhpMerge extends PhpMergeBase
         $conflicts = [];
         $merged = PhpMerge::mergeHunks($baseLines, $remoteHunks, $localHunks, $conflicts);
 
-        if ($conflicts) {
+        if (!empty($conflicts)) {
             throw new MergeException('A merge conflict has occured.', $conflicts, $merged);
         }
 
@@ -255,7 +254,11 @@ class PhpMerge extends PhpMergeBase
      * Swaps two variables.
      *
      * @param mixed $a
+     *   The first variable which will become the second.
      * @param mixed $b
+     *   The second variable which will become the first.
+     * @param bool $flipped
+     *   The boolean indicator which will change its value.
      */
     protected static function swap(&$a, &$b, &$flipped)
     {

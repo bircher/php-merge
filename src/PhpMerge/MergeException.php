@@ -59,7 +59,10 @@ class MergeException extends \RuntimeException
     }
 
     /**
+     * Get the merge conflicts associated with the exception.
+     *
      * @return \PhpMerge\MergeConflict[]
+     *   All the conflicts that happened during the merge.
      */
     public function getConflicts()
     {
@@ -67,12 +70,13 @@ class MergeException extends \RuntimeException
     }
 
     /**
+     * Get the merged text if the first text is used to resolve the conflict.
+     *
      * @return string
+     *   The merged text.
      */
     public function getMerged()
     {
         return $this->merged;
     }
-
-
 }

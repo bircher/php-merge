@@ -270,5 +270,4 @@ class Hunk
         return $this->isLineNumberAffected($hunk->start) || $this->isLineNumberAffected($hunk->end)
           || $hunk->isLineNumberAffected($this->start) || $hunk->isLineNumberAffected($this->end);
     }
-
 }

@@ -71,9 +71,9 @@ class MergeConflict
      *   The conflicting line changes from the first source.
      * @param string[] $local
      *   The conflicting line changes from the second source.
-     * @param int $line
+     * @param int $baseLine
      *   The line number in the original text.
-     * @param int $merged
+     * @param int $mergedLine
      *   The line number in the merged text.
      */
     public function __construct($base, $remote, $local, $baseLine, $mergedLine)
@@ -86,7 +86,10 @@ class MergeConflict
     }
 
     /**
+     * Get the base text of the conflict.
+     *
      * @return string[]
+     *   The array of lines which are involved in the conflict.
      */
     public function getBase()
     {
@@ -94,7 +97,10 @@ class MergeConflict
     }
 
     /**
+     * Get the lines from the first text.
+     *
      * @return string[]
+     *   The array of lines from the first text involved in the conflict.
      */
     public function getRemote()
     {
@@ -102,7 +108,10 @@ class MergeConflict
     }
 
     /**
+     * Get the lines from the second text.
+     *
      * @return string[]
+     *   The array of lines from the first text involved in the conflict.
      */
     public function getLocal()
     {
@@ -110,7 +119,10 @@ class MergeConflict
     }
 
     /**
+     * Get the line number in the original text where the conflict starts.
+     *
      * @return int
+     *   The line number as in the original text.
      */
     public function getBaseLine()
     {
@@ -118,11 +130,13 @@ class MergeConflict
     }
 
     /**
+     * Get the line number in the merged text where the conflict starts.
+     *
      * @return int
+     *   The line number in the merged text.
      */
     public function getMergedLine()
     {
         return $this->mergedLine;
     }
-
 }

@@ -54,5 +54,4 @@ abstract class PhpMergeBase implements PhpMergeInterface
         // Return nothing and let sub-classes deal with it.
         return null;
     }
-
 }
