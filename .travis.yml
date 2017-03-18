@@ -1,0 +1,15 @@
+language: php
+
+php:
+  - 7.1
+  - 7.0
+  - 5.6
+  - 5.5
+  - 5.4
+  - 5.3
+
+before_script:
+  - git --version
+  - pecl install xdiff
+  - composer install --prefer-dist --dev
+
