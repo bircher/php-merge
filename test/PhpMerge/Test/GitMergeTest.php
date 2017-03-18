@@ -20,11 +20,17 @@ use PhpMerge\MergeException;
 class GitMergeTest extends AbstractPhpMergeTest
 {
 
-    public function setUp() 
+    /**
+     * {@inheritdoc}
+     */
+    protected function createMerger()
     {
-        parent::setUp(new GitMerge());
+        return new GitMerge();
     }
 
+    /**
+     * Test that the git directory is properly cleaned up.
+     */
     public function testCleanup()
     {
         $merger = new GitMerge();

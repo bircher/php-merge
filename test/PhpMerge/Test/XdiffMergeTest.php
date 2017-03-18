@@ -18,14 +18,15 @@ use PhpMerge\XdiffMerge;
 class XdiffMergeTest extends AbstractPhpMergeTest
 {
     /**
-     * Set up the xdiff merge if the xdiff extension is installed.
+     * {@inheritdoc}
      */
-    public function setUp()
+    protected function createMerger()
     {
         if (function_exists('xdiff_string_merge3')) {
-            parent::setUp(new XdiffMerge());
+            return new XdiffMerge();
         } else {
             $this->markTestSkipped('The xdiff php extension is not installed.');
+            return NULL;
         }
     }
 

@@ -44,12 +44,6 @@ class XdiffMerge extends PhpMerge
         // First try the built in xdiff_string_merge3.
         $merged = xdiff_string_merge3($base, $remote, $local, $error);
 
-//        if ($error) {
-//            // Try it the other way around.
-//            $error = null;
-//            $merged = xdiff_string_merge3($base, $local, $remote, $error);
-//        }
-
         if ($error) {
             // So there might be a merge conflict.
             $baseLines = $this->base = Line::createArray(

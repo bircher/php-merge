@@ -26,12 +26,19 @@ abstract class AbstractPhpMergeTest extends \PHPUnit_Framework_TestCase
     protected $merger;
 
     /**
-     * @param \PhpMerge\PhpMergeInterface $merger
+     * Set up the merger to use.
+     *
+     * @return \PhpMerge\PhpMergeInterface
+     *   The merger used in the subsequent tests.
      */
-    public function setUp(PhpMergeInterface $merger)
+    abstract protected function createMerger();
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp()
     {
-        parent::setUp();
-        $this->merger = $merger;
+        $this->merger = $this->createMerger();
     }
 
     /**

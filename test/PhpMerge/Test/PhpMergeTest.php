@@ -17,12 +17,13 @@ use PhpMerge\PhpMerge;
  */
 class PhpMergeTest extends AbstractPhpMergeTest
 {
+
     /**
-     *
+     * {@inheritdoc}
      */
-    public function setUp()
+    protected function createMerger()
     {
-        parent::setUp(new PhpMerge());
+        return new PhpMerge();
     }
 
 }

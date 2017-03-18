@@ -88,12 +88,13 @@ class GitMerge extends PhpMergeBase
             $merged = $this->mergeFile($file, $base, $remote, $local);
             return self::postMergeAlter($merged);
         } catch (GitException $e) {
-            // @TODO: clean up working directory.
+            // Get conflicts by reading from the file.
             $conflicts = [];
             $merged = [];
             self::getConflicts($file, $base, $remote, $local, $conflicts, $merged);
             $merged = implode("\n", $merged);
             $merged = self::postMergeAlter($merged);
+            // Set the file to the merged one with the first text for conflicts.
             file_put_contents($file, $merged);
             $this->git->add($file);
             $this->git->commit('Resolve merge conflict.');
@@ -330,7 +331,6 @@ class GitMerge extends PhpMergeBase
      */
     protected function setup()
     {
-        // @TODO: Allow setting up in an existing dierectory.
         if (!$this->dir) {
             // Greate a temporary directory.
             $tempfile = tempnam(sys_get_temp_dir(), '');
