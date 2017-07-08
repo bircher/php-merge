@@ -75,6 +75,7 @@ class PhpMerge extends PhpMergeBase implements PhpMergeInterface
 
         $conflicts = [];
         $merged = PhpMerge::mergeHunks($baseLines, $remoteHunks, $localHunks, $conflicts);
+        $merged = implode("\n", $merged);
 
         if (!empty($conflicts)) {
             throw new MergeException('A merge conflict has occured.', $conflicts, $merged);
@@ -166,7 +167,7 @@ class PhpMerge extends PhpMergeBase implements PhpMergeInterface
             // Finally, advance the index.
             $i++;
         }
-        return implode("\n", $merged);
+        return $merged;
     }
 
     /**
