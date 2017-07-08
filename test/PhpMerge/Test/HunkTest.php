@@ -10,8 +10,8 @@
 
 namespace PhpMerge\Test;
 
-use PhpMerge\Hunk;
-use PhpMerge\Line;
+use PhpMerge\internal\Hunk;
+use PhpMerge\internal\Line;
 
 /**
  * Class HunkTest

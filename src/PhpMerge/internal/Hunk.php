@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PhpMerge;
+namespace PhpMerge\internal;
 
 /**
  * Class Hunk
@@ -21,8 +21,9 @@ namespace PhpMerge;
  * @license    https://opensource.org/licenses/MIT
  * @version    Release: @package_version@
  * @link       http://github.com/bircher/php-merge
+ * @internal   This class is not part of the public api.
  */
-class Hunk
+final class Hunk
 {
 
     const ADDED = 1;

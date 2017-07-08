@@ -13,6 +13,7 @@ namespace PhpMerge\Test;
 use PhpMerge\GitMerge;
 use PhpMerge\MergeConflict;
 use PhpMerge\MergeException;
+use PhpMerge\PhpMergeInterface;
 
 /**
  * @group git-merge
@@ -23,7 +24,7 @@ class GitMergeTest extends AbstractPhpMergeTest
     /**
      * {@inheritdoc}
      */
-    protected function createMerger()
+    protected function createMerger() : PhpMergeInterface
     {
         return new GitMerge();
     }

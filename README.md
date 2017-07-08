@@ -145,7 +145,7 @@ the library as a dependency to your composer.json file.
 ```json
 {
     "require": {
-        "bircher/php-merge": "~1.0"
+        "bircher/php-merge": "~2.0"
     }
 }
 ```
@@ -155,7 +155,7 @@ To use the command line git with `GitMerge`:
 ```json
 {
     "require": {
-        "bircher/php-merge": "~1.0",
+        "bircher/php-merge": "~2.0",
         "cpliakas/git-wrapper": "~1.0"
     }
 }
@@ -163,3 +163,15 @@ To use the command line git with `GitMerge`:
 
 Please refer to [Composer's documentation](https://github.com/composer/composer/blob/master/doc/00-intro.md#introduction)
 for installation and usage instructions.
+
+
+## Difference to ~1.0
+
+In the ~2.0 version we dropped support for php 5 and use php 7 constructs
+instead. This means that the `PhpMergeInterface` type-hints the arguments and
+return type as strings. In addition to that all classes are now final and it
+is clearer what the API is. We can consider making the classes inheritable if
+needed without breaking the api but not the other way around.
+
+If you have just been using the ~1.0 version as described in this document
+the version ~2.0 will continue to work.

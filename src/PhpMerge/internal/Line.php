@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PhpMerge;
+namespace PhpMerge\internal;
 
 use SebastianBergmann\Diff\Line as DiffLine;
 
@@ -21,8 +21,9 @@ use SebastianBergmann\Diff\Line as DiffLine;
  * @license    https://opensource.org/licenses/MIT
  * @version    Release: @package_version@
  * @link       http://github.com/bircher/php-merge
+ * @internal   This class is not part of the public api.
  */
-class Line extends DiffLine
+final class Line extends DiffLine
 {
 
     /**

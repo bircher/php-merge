@@ -12,6 +12,9 @@ namespace PhpMerge;
 
 use GitWrapper\GitWrapper;
 use GitWrapper\GitException;
+use PhpMerge\internal\Line;
+use PhpMerge\internal\Hunk;
+use PhpMerge\internal\PhpMergeBase;
 use SebastianBergmann\Diff\Differ;
 
 /**
@@ -31,7 +34,7 @@ use SebastianBergmann\Diff\Differ;
  * @link      http://github.com/bircher/php-merge
  * @category  library
  */
-class GitMerge extends PhpMergeBase implements PhpMergeInterface
+final class GitMerge extends PhpMergeBase implements PhpMergeInterface
 {
 
     /**
@@ -63,7 +66,7 @@ class GitMerge extends PhpMergeBase implements PhpMergeInterface
     /**
      * {@inheritdoc}
      */
-    public function merge($base, $remote, $local)
+    public function merge(string $base, string $remote, string $local) : string
     {
 
         // Skip merging if there is nothing to do.
@@ -111,7 +114,7 @@ class GitMerge extends PhpMergeBase implements PhpMergeInterface
      * @return string
      *   The merged text.
      */
-    protected function mergeFile($file, $base, $remote, $local)
+    protected function mergeFile(string $file, string $base, string $remote, string $local) : string
     {
         file_put_contents($file, $base);
         $this->git->add($file);
@@ -287,7 +290,8 @@ class GitMerge extends PhpMergeBase implements PhpMergeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param $text
+     * @return string
      */
     protected static function preMergeAlter($text)
     {
@@ -296,7 +300,8 @@ class GitMerge extends PhpMergeBase implements PhpMergeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param $text
+     * @return bool|string
      */
     protected static function postMergeAlter($text)
     {

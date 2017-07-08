@@ -24,7 +24,7 @@ namespace PhpMerge;
  * @version    Release: @package_version@
  * @link       http://github.com/bircher/php-merge
  */
-class MergeConflict
+final class MergeConflict
 {
 
     /**

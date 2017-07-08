@@ -24,7 +24,7 @@ namespace PhpMerge;
  * @version    Release: @package_version@
  * @link       http://github.com/bircher/php-merge
  */
-class MergeException extends \RuntimeException
+final class MergeException extends \RuntimeException
 {
 
     /**
@@ -75,7 +75,7 @@ class MergeException extends \RuntimeException
      * @return string
      *   The merged text.
      */
-    public function getMerged()
+    public function getMerged() : string
     {
         return $this->merged;
     }

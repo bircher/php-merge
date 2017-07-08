@@ -11,7 +11,7 @@
 namespace PhpMerge\Test;
 
 
-use PhpMerge\Line;
+use PhpMerge\internal\Line;
 use SebastianBergmann\Diff\Differ;
 
 /**

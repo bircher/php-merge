@@ -39,5 +39,5 @@ interface PhpMergeInterface
      * @throws MergeException
      *   Thrown when there is a merge conflict.
      */
-    public function merge($base, $remote, $local);
+    public function merge(string $base, string $remote, string $local) : string;
 }

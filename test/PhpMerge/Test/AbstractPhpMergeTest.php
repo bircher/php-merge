@@ -31,7 +31,7 @@ abstract class AbstractPhpMergeTest extends \PHPUnit_Framework_TestCase
      * @return \PhpMerge\PhpMergeInterface
      *   The merger used in the subsequent tests.
      */
-    abstract protected function createMerger();
+    abstract protected function createMerger() : PhpMergeInterface;
 
     /**
      * {@inheritdoc}

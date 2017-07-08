@@ -11,6 +11,7 @@
 namespace PhpMerge\Test;
 
 use PhpMerge\PhpMerge;
+use PhpMerge\PhpMergeInterface;
 
 /**
  * @group php-merge
@@ -21,7 +22,7 @@ class PhpMergeTest extends AbstractPhpMergeTest
     /**
      * {@inheritdoc}
      */
-    protected function createMerger()
+    protected function createMerger() : PhpMergeInterface
     {
         return new PhpMerge();
     }

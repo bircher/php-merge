@@ -10,6 +10,9 @@
 
 namespace PhpMerge;
 
+use PhpMerge\internal\Line;
+use PhpMerge\internal\Hunk;
+use PhpMerge\internal\PhpMergeBase;
 use SebastianBergmann\Diff\Differ;
 
 /**
@@ -26,7 +29,7 @@ use SebastianBergmann\Diff\Differ;
  * @version    Release: @package_version@
  * @link       http://github.com/bircher/php-merge
  */
-class PhpMerge extends PhpMergeBase implements PhpMergeInterface
+final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
 {
 
     /**
@@ -51,7 +54,7 @@ class PhpMerge extends PhpMergeBase implements PhpMergeInterface
     /**
      * {@inheritdoc}
      */
-    public function merge($base, $remote, $local)
+    public function merge(string $base, string $remote, string $local) : string
     {
         // Skip merging if there is nothing to do.
         if ($merged = PhpMergeBase::simpleMerge($base, $remote, $local)) {
@@ -99,7 +102,7 @@ class PhpMerge extends PhpMergeBase implements PhpMergeInterface
      * @return string[]
      *   The merged text.
      */
-    protected static function mergeHunks($base, $remote, $local, &$conflicts = [])
+    protected static function mergeHunks(array $base, array $remote, array $local, array &$conflicts = []) : array
     {
         $remote = new \ArrayObject($remote);
         $local = new \ArrayObject($local);
