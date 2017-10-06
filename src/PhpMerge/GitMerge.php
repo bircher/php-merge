@@ -293,7 +293,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
      * @param $text
      * @return string
      */
-    protected static function preMergeAlter($text)
+    protected static function preMergeAlter($text) : string
     {
         // Append new lines so that conflicts at the end of the text work.
         return $text . "\nthe\nend";
@@ -303,10 +303,10 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
      * @param $text
      * @return bool|string
      */
-    protected static function postMergeAlter($text)
+    protected static function postMergeAlter($text) : string
     {
         // Remove the appended lines.
-        return substr($text, 0, -8);
+        return (string) substr($text, 0, -8);
     }
 
     /**
