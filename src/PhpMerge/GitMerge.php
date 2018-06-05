@@ -339,10 +339,12 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
             }
             $this->dir = $tempfile . '.git';
             $this->git = $this->wrapper->init($this->dir);
+
         }
-        $this->git->config('user.name', 'GitMerge')
-            ->config('user.email', 'gitmerge@php-merge.example.com')
-            ->config('merge.conflictStyle', 'diff3');
+        if ($this->git) {
+            $this->git->config('user.name', 'GitMerge');
+            $this->git->config('user.email', 'gitmerge@php-merge.example.com');
+            $this->git->config('merge.conflictStyle', 'diff3');        }
     }
 
     /**
