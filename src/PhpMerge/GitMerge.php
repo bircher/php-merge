@@ -78,24 +78,19 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
         $this->setup();
 
         $file = tempnam($this->dir, '');
-        $base = self::preMergeAlter($base);
-        $remote = self::preMergeAlter($remote);
-        $local = self::preMergeAlter($local);
         try {
-            $merged = $this->mergeFile($file, $base, $remote, $local);
-            return self::postMergeAlter($merged);
+            return $this->mergeFile($file, $base, $remote, $local);
         } catch (GitException $e) {
             // Get conflicts by reading from the file.
             $conflicts = [];
             $merged = [];
             self::getConflicts($file, $base, $remote, $local, $conflicts, $merged);
-            $merged = implode("\n", $merged);
-            $merged = self::postMergeAlter($merged);
+            $merged = implode("", $merged);
             // Set the file to the merged one with the first text for conflicts.
             file_put_contents($file, $merged);
             $this->git->add($file);
             $this->git->commit('Resolve merge conflict.');
-            throw new MergeException('A merge conflict has occured.', $conflicts, $merged, 0, $e);
+            throw new MergeException('A merge conflict has occurred.', $conflicts, $merged, 0, $e);
         }
     }
 
@@ -159,7 +154,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
      */
     protected static function getConflicts($file, $baseText, $remoteText, $localText, &$conflicts, &$merged)
     {
-        $raw = new \ArrayObject(explode("\n", file_get_contents($file)));
+        $raw = new \ArrayObject(self::splitStringByLines(file_get_contents($file)));
         $lineIterator = $raw->getIterator();
         $state = 'unchanged';
         $conflictIndicator = [
@@ -287,26 +282,42 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
             }
             $lineIterator->next();
         }
+
+        $rawBase = self::splitStringByLines($baseText);
+        $lastConflict = end($conflicts);
+        // Check if the last conflict was at the end of the text.
+        if ($lastConflict->getBaseLine() + count($lastConflict->getBase()) == count($rawBase)) {
+            // Fix the last lines of all the texts as we can not know from
+            // the merged text if there was a new line at the end or not.
+            $base = self::fixLastLine($lastConflict->getBase(), $rawBase);
+            $remote = self::fixLastLine($lastConflict->getRemote(), self::splitStringByLines($remoteText));
+            $local = self::fixLastLine($lastConflict->getLocal(), self::splitStringByLines($localText));
+
+            $newConflict = new MergeConflict($base, $remote, $local, $lastConflict->getBaseLine(), $lastConflict->getMergedLine());
+            $conflicts[key($conflicts)] = $newConflict;
+
+            $lastMerged = end($merged);
+            $lastRemote = end($remote);
+            if ($lastMerged !== $lastRemote && rtrim($lastMerged) === $lastRemote) {
+                $merged[key($merged)] = $lastRemote;
+            }
+        }
     }
 
     /**
-     * @param $text
-     * @return string
+     * @param array $lines
+     * @param array $all
+     *
+     * @return array
      */
-    protected static function preMergeAlter($text) : string
+    protected static function fixLastLine(array $lines, array $all): array
     {
-        // Append new lines so that conflicts at the end of the text work.
-        return $text . "\nthe\nend";
-    }
-
-    /**
-     * @param $text
-     * @return bool|string
-     */
-    protected static function postMergeAlter($text) : string
-    {
-        // Remove the appended lines.
-        return (string) substr($text, 0, -8);
+        $last = end($all);
+        $lastLine = end($lines);
+        if ($lastLine !== false && $last !== $lastLine && rtrim($lastLine) === $last) {
+            $lines[key($lines)] = $last;
+        }
+        return $lines;
     }
 
     /**
@@ -339,12 +350,12 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
             }
             $this->dir = $tempfile . '.git';
             $this->git = $this->wrapper->init($this->dir);
-
         }
         if ($this->git) {
             $this->git->config('user.name', 'GitMerge');
             $this->git->config('user.email', 'gitmerge@php-merge.example.com');
-            $this->git->config('merge.conflictStyle', 'diff3');        }
+            $this->git->config('merge.conflictStyle', 'diff3');
+        }
     }
 
     /**

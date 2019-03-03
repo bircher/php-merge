@@ -1,8 +1,6 @@
 # php-merge
 
 [![Build Status](https://travis-ci.org/bircher/php-merge.svg?branch=master)](https://travis-ci.org/bircher/php-merge)
-[![Code Coverage](https://scrutinizer-ci.com/g/bircher/php-merge/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bircher/php-merge/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bircher/php-merge/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bircher/php-merge/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e9399164-2b7d-4351-97ae-a600442d1e47/mini.png)](https://insight.sensiolabs.com/projects/e9399164-2b7d-4351-97ae-a600442d1e47)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bircher/php-merge/master/LICENSE.txt)
 

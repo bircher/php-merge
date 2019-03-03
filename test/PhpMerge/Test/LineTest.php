@@ -12,13 +12,14 @@ namespace PhpMerge\Test;
 
 
 use PhpMerge\internal\Line;
+use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Diff\Differ;
 
 /**
  * Class LineTest
  * @package PhpMerge\Test
  */
-class LineTest extends \PHPUnit_Framework_TestCase
+class LineTest extends TestCase
 {
     
     public function testCreate()
@@ -29,30 +30,32 @@ unchanged
 replaced
 unchanged
 removed
+
 EOD;
         $after = <<<'EOD'
 added
 unchanged
 replacement
 unchanged
+
 EOD;
 
         $diff = [
-        ['added', 1],
-        ['unchanged', 0],
-        ['replaced', 2],
-        ['replacement', 1],
-        ['unchanged', 0],
-        ['removed', 2]
+        ["added\n", 1],
+        ["unchanged\n", 0],
+        ["replaced\n", 2],
+        ["replacement\n", 1],
+        ["unchanged\n", 0],
+        ["removed\n", 2]
         ];
 
         $lines = [
-        new Line(Line::ADDED, 'added', -1),
-        new Line(Line::UNCHANGED, 'unchanged', 0),
-        new Line(Line::REMOVED, 'replaced', 1),
-        new Line(Line::ADDED, 'replacement', 1),
-        new Line(Line::UNCHANGED, 'unchanged', 2),
-        new Line(Line::REMOVED, 'removed', 3),
+        new Line(Line::ADDED, "added\n", -1),
+        new Line(Line::UNCHANGED, "unchanged\n", 0),
+        new Line(Line::REMOVED, "replaced\n", 1),
+        new Line(Line::ADDED, "replacement\n", 1),
+        new Line(Line::UNCHANGED, "unchanged\n", 2),
+        new Line(Line::REMOVED, "removed\n", 3),
         ];
 
         $differ = new Differ();
@@ -63,7 +66,7 @@ EOD;
         $this->assertEquals($lines, $result);
 
         try {
-            $diff[] = ['invalid', 3];
+            $diff[] = ["invalid", 3];
             Line::createArray($diff);
             $this->assertTrue(false, 'An exception was not thrown');
         } catch (\RuntimeException $e) {

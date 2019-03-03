@@ -69,7 +69,7 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
                 function ($l) {
                     return [$l, 0];
                 },
-                explode("\n", $base)
+                self::splitStringByLines($base)
             )
         );
 
@@ -78,10 +78,10 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
 
         $conflicts = [];
         $merged = PhpMerge::mergeHunks($baseLines, $remoteHunks, $localHunks, $conflicts);
-        $merged = implode("\n", $merged);
+        $merged = implode("", $merged);
 
         if (!empty($conflicts)) {
-            throw new MergeException('A merge conflict has occured.', $conflicts, $merged);
+            throw new MergeException('A merge conflict has occurred.', $conflicts, $merged);
         }
 
         return $merged;

@@ -12,6 +12,7 @@ namespace PhpMerge\Test;
 
 use PhpMerge\internal\Hunk;
 use PhpMerge\internal\Line;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class HunkTest
@@ -19,7 +20,7 @@ use PhpMerge\internal\Line;
  *
  * @group hunk
  */
-class HunkTest extends \PHPUnit_Framework_TestCase
+class HunkTest extends TestCase
 {
 
 

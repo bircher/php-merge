@@ -57,4 +57,16 @@ abstract class PhpMergeBase implements PhpMergeInterface
         // Return nothing and let sub-classes deal with it.
         return null;
     }
+
+    /**
+     * Split it line-by-line.
+     *
+     * @param string $input
+     *
+     * @return array
+     */
+    protected static function splitStringByLines(string $input): array
+    {
+        return \preg_split('/(.*\R)/', $input, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+    }
 }

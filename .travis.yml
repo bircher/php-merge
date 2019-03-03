@@ -9,5 +9,4 @@ before_script:
   - composer install --prefer-dist --dev
 
 after_script:
-  - vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
   - vendor/bin/phpcs --standard=PSR2 --colors --warning-severity=0 --report-width=4 ./src/
