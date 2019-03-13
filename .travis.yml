@@ -1,12 +1,35 @@
 language: php
 
-php:
-  - 7.1
-  - 7.2
+matrix:
+  include:
+    - php: 7.1
+      env: COMPOSER_FLAGS=--prefer-lowest
+    - php: 7.1
+    - php: 7.2
+      env: STATIC_ANALYSIS=true
+    - php: 7.2
+      env: PHPUNIT_FLAGS="--coverage-clover coverage.xml"
+    - php: 7.3
+
+install:
+  - composer update $COMPOSER_FLAGS
 
 before_script:
   - git --version
-  - composer install --prefer-dist --dev
+
+script:
+  - vendor/bin/phpunit $PHPUNIT_FLAGS
+  # disable xdebug if not needed
+  - if [[ $PHPUNIT_FLAGS != "" ]]; then phpenv config-rm xdebug.ini; fi
+  - if [[ $STATIC_ANALYSIS == true ]]; then vendor/bin/grumphp run; fi
 
 after_script:
-  - vendor/bin/phpcs --standard=PSR2 --colors --warning-severity=0 --report-width=4 ./src/
+  # upload coverage.xml to Coveralls
+  - |
+    if [[ $PHPUNIT_FLAGS != "" ]]; then
+        wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar;
+        php coveralls.phar --verbose;
+    fi
+
+notifications:
+  email: false

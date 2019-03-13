@@ -1,0 +1,15 @@
+parameters:
+  ascii:
+    failed: ~
+    succeeded: ~
+  tasks:
+    phpcs:
+      triggered_by: ['php']
+#      standard: vendor/escapestudios/symfony2-coding-standard/Symfony
+      standard: PSR2
+      ignore_patterns:
+        - ./vendor/
+    phpstan:
+      level: 0
+      triggered_by: ['php']
+      autoload_file: test/bootstrap.php
