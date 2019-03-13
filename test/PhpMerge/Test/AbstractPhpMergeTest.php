@@ -10,12 +10,10 @@
 
 namespace PhpMerge\Test;
 
-
 use PhpMerge\MergeConflict;
 use PhpMerge\MergeException;
 use PhpMerge\PhpMergeInterface;
 use PHPUnit\Framework\TestCase;
-
 
 abstract class AbstractPhpMergeTest extends TestCase
 {
@@ -122,7 +120,6 @@ abstract class AbstractPhpMergeTest extends TestCase
         $this->assertEquals($expected, $result);
         $result = $this->merger->merge($base, $local, $remote);
         $this->assertEquals($expected, $result);
-
     }
 
     /**
@@ -270,7 +267,6 @@ abstract class AbstractPhpMergeTest extends TestCase
             $this->assertEquals($conflicts, $e->getConflicts());
             $this->assertEquals(self::split("aaa34A6B8C"), $e->getMerged());
         }
-
     }
 
     /**
@@ -303,7 +299,6 @@ abstract class AbstractPhpMergeTest extends TestCase
             $this->assertEquals($conflicts, $e->getConflicts());
             $this->assertEquals($local, $e->getMerged());
         }
-
     }
 
     /**
@@ -485,5 +480,4 @@ EOD;
     {
         return implode("\n", str_split($string)) . str_repeat("\n", $emptyLines);
     }
-
 }

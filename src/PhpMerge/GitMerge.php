@@ -289,11 +289,13 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
         if ($lastConflict->getBaseLine() + count($lastConflict->getBase()) == count($rawBase)) {
             // Fix the last lines of all the texts as we can not know from
             // the merged text if there was a new line at the end or not.
-            $base = self::fixLastLine($lastConflict->getBase(), $rawBase);
-            $remote = self::fixLastLine($lastConflict->getRemote(), self::splitStringByLines($remoteText));
-            $local = self::fixLastLine($lastConflict->getLocal(), self::splitStringByLines($localText));
-
-            $newConflict = new MergeConflict($base, $remote, $local, $lastConflict->getBaseLine(), $lastConflict->getMergedLine());
+            $newConflict = new MergeConflict(
+                self::fixLastLine($lastConflict->getBase(), $rawBase),
+                self::fixLastLine($lastConflict->getRemote(), self::splitStringByLines($remoteText)),
+                self::fixLastLine($lastConflict->getLocal(), self::splitStringByLines($localText)),
+                $lastConflict->getBaseLine(),
+                $lastConflict->getMergedLine()
+            );
             $conflicts[key($conflicts)] = $newConflict;
 
             $lastMerged = end($merged);

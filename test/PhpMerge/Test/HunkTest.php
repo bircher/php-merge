@@ -23,8 +23,7 @@ use PHPUnit\Framework\TestCase;
 class HunkTest extends TestCase
 {
 
-
-    public function testCreate() 
+    public function testCreate()
     {
         $lines = [
           new Line(Line::ADDED, 'added', -1),

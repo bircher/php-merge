@@ -10,7 +10,6 @@
 
 namespace PhpMerge\Test;
 
-
 use PhpMerge\internal\Line;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Diff\Differ;

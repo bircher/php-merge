@@ -48,6 +48,4 @@ class GitMergeTest extends AbstractPhpMergeTest
         unset($merger);
         $this->assertFalse(is_dir($temp_dir), "Temporary directory cleaned up.");
     }
-
-
 }

@@ -26,5 +26,4 @@ class PhpMergeTest extends AbstractPhpMergeTest
     {
         return new PhpMerge();
     }
-
 }
