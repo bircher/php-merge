@@ -78,9 +78,10 @@ final class MergeConflict
      */
     public function __construct($base, $remote, $local, $baseLine, $mergedLine)
     {
-        $this->base = $base;
-        $this->remote = $remote;
-        $this->local = $local;
+        // Compatibility for 2.x branch and sebastian/diff 2.x and 3.x.
+        $this->base = static::fixEOL($base);
+        $this->remote = static::fixEOL($remote);
+        $this->local = static::fixEOL($local);
         $this->baseLine = $baseLine;
         $this->mergedLine = $mergedLine;
     }
@@ -138,5 +139,22 @@ final class MergeConflict
     public function getMergedLine()
     {
         return $this->mergedLine;
+    }
+
+    /**
+     * Remove the trailing EOL that are now added by sebastian/diff.
+     *
+     * @param string[] $lines
+     *   The lines to fix.
+     *
+     * @return string[]
+     *   The fixed lines.
+     */
+    private static function fixEOL(array $lines)
+    {
+        $ltrim = function ($line) {
+            return rtrim($line, "\n");
+        };
+        return array_map($ltrim, $lines);
     }
 }

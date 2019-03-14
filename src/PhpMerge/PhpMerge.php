@@ -61,6 +61,11 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
             return $merged;
         }
 
+        // Compatibility for 2.x branch and sebastian/diff 2.x and 3.x.
+        $base = self::preMergeAlter($base);
+        $remote = self::preMergeAlter($remote);
+        $local = self::preMergeAlter($local);
+
         $remoteDiff = Line::createArray($this->differ->diffToArray($base, $remote));
         $localDiff = Line::createArray($this->differ->diffToArray($base, $local));
 
@@ -79,6 +84,7 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
         $conflicts = [];
         $merged = PhpMerge::mergeHunks($baseLines, $remoteHunks, $localHunks, $conflicts);
         $merged = implode("", $merged);
+        $merged = self::postMergeAlter($merged);
 
         if (!empty($conflicts)) {
             throw new MergeException('A merge conflict has occurred.', $conflicts, $merged);

@@ -78,14 +78,20 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
         $this->setup();
 
         $file = tempnam($this->dir, '');
+        // Compatibility for 2.x branch and sebastian/diff 2.x and 3.x.
+        $base = self::preMergeAlter($base);
+        $remote = self::preMergeAlter($remote);
+        $local = self::preMergeAlter($local);
         try {
-            return $this->mergeFile($file, $base, $remote, $local);
+            $merged = $this->mergeFile($file, $base, $remote, $local);
+            return self::postMergeAlter($merged);
         } catch (GitException $e) {
             // Get conflicts by reading from the file.
             $conflicts = [];
             $merged = [];
             self::getConflicts($file, $base, $remote, $local, $conflicts, $merged);
             $merged = implode("", $merged);
+            $merged = self::postMergeAlter($merged);
             // Set the file to the merged one with the first text for conflicts.
             file_put_contents($file, $merged);
             $this->git->add($file);

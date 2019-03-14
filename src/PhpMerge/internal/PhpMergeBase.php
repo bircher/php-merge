@@ -69,4 +69,24 @@ abstract class PhpMergeBase implements PhpMergeInterface
     {
         return \preg_split('/(.*\R)/', $input, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
     }
+
+    /**
+     * @param $text
+     * @return string
+     */
+    protected static function preMergeAlter($text) : string
+    {
+        // Append new lines so that conflicts at the end of the text work.
+        return $text . "\nthe\nend";
+    }
+
+    /**
+     * @param $text
+     * @return bool|string
+     */
+    protected static function postMergeAlter($text) : string
+    {
+        // Remove the appended lines.
+        return (string) substr($text, 0, -8);
+    }
 }
