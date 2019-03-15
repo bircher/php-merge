@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/bircher/php-merge.svg?branch=master)](https://travis-ci.org/bircher/php-merge)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e9399164-2b7d-4351-97ae-a600442d1e47/mini.png)](https://insight.sensiolabs.com/projects/e9399164-2b7d-4351-97ae-a600442d1e47)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bircher/php-merge/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bircher/php-merge/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/bircher/php-merge/badge.svg?branch=master)](https://coveralls.io/github/bircher/php-merge?branch=master)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bircher/php-merge/master/LICENSE.txt)
 
 ## Introduction
@@ -17,13 +19,13 @@ function. But `xdiff_string_merge3` does not behave the same way as git and
 xdiff may not be available on your system.
 
 PhpMerge is a small library that solves this problem. There are two classes:
-`\PhpMerge\PhpMerge` and `\PhpMerge\GitMerge` that implement the 
+`\PhpMerge\PhpMerge` and `\PhpMerge\GitMerge` that implement the
 `\PhpMerge\PhpMergeInterface` which has just a `merge` method.
 
 `PhpMerge` uses `SebastianBergmann\Diff\Differ` to get the differences between
 the different versions and calculates the merged text from it.
 `GitMerge` uses `GitWrapper\GitWrapper`, writes the text to a temporary file
-and uses the command line git to merge the text. 
+and uses the command line git to merge the text.
 
 ## Usage
 
@@ -44,7 +46,9 @@ normal
 unchanged
 unchanged
 removed
+
 EOD;
+
 $version1= <<<'EOD'
 added
 unchanged
@@ -53,7 +57,9 @@ unchanged
 normal
 unchanged
 unchanged
+
 EOD;
+
 $version2 = <<<'EOD'
 unchanged
 replaced
@@ -61,7 +67,9 @@ unchanged
 normal??
 unchanged
 unchanged
+
 EOD;
+
 $expected = <<<'EOD'
 added
 unchanged
@@ -70,10 +78,11 @@ unchanged
 normal??
 unchanged
 unchanged
+
 EOD;
 
 $result = $merger->merge($original, $version1, $version2);
-// $result == $expected;
+// $result === $expected;
 
 ```
 
@@ -92,6 +101,7 @@ unchanged
 normal!!
 unchanged
 unchanged
+
 EOD;
 
 try {
@@ -101,25 +111,25 @@ try {
     $conflicts = $exception->getConflicts();
 
     $original_lines = $conflicts[0]->getBase();
-    // $original_lines == ['normal'];
+    // $original_lines === ["normal\n"];
     
     $version2_lines = $conflicts[0]->getRemote();
-    // $version2_lines == ['normal??'];
+    // $version2_lines === ["normal??\n"];
     
     $conflicting_lines = $conflicts[0]->getLocal();
-    // $conflicting_lines == ['normal!!'];
+    // $conflicting_lines === ["normal!!\n"];
     
     $line_numer_of_conflict = $conflicts[0]->getBaseLine();
-    // $line_numer_of_conflict == 3; // Count starts with 0.
+    // $line_numer_of_conflict === 3; // Count starts with 0.
     
     // It is also possible to get the merged version using the first version
     // to resolve conflicts.
     $merged = $exception->getMerged();
-    // $merged == $version2;
+    // $merged === $version2;
     // In this case, but in general there could be non-conflicting changes.
     
     $line_in_merged = $conflicts[0]->getMergedLine();
-    // $line_in_merged == 3; // Count starts with 0.
+    // $line_in_merged === 3; // Count starts with 0.
 }
 
 ```
@@ -143,7 +153,7 @@ the library as a dependency to your composer.json file.
 ```json
 {
     "require": {
-        "bircher/php-merge": "~2.0"
+        "bircher/php-merge": "~3.0"
     }
 }
 ```
@@ -153,8 +163,8 @@ To use the command line git with `GitMerge`:
 ```json
 {
     "require": {
-        "bircher/php-merge": "~2.0",
-        "cpliakas/git-wrapper": "~1.0"
+        "bircher/php-merge": "~3.0",
+        "cpliakas/git-wrapper": "~2.0"
     }
 }
 ```
@@ -163,13 +173,15 @@ Please refer to [Composer's documentation](https://github.com/composer/composer/
 for installation and usage instructions.
 
 
-## Difference to ~1.0
+## Difference to ~2.0
 
-In the ~2.0 version we dropped support for php 5 and use php 7 constructs
-instead. This means that the `PhpMergeInterface` type-hints the arguments and
-return type as strings. In addition to that all classes are now final and it
-is clearer what the API is. We can consider making the classes inheritable if
-needed without breaking the api but not the other way around.
+In the ~3.0 version we updated sebastian/diff from "^1.3" to "~2.0|~3.0".
+This update means that the lines contain the end-of-line character.
+Consequently, we can treat conflicts at the end of the text the same way
+git does and we can return the complete line in the merge conflicts.
 
-If you have just been using the ~1.0 version as described in this document
-the version ~2.0 will continue to work.
+If there are no conflicts the behaviour is not changed from ~1.0 and ~2.0.
+Merge conflicts now contain the lines including the \n character.
+
+The 2.1.0 release also has the updated version of sebastian/diff but
+retains the 2.0.0 merge and merge conflict behaviour.
