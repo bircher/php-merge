@@ -121,7 +121,7 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
         $i = -1;
 
         // Loop over all indexes of the base and all hunks.
-        while ($i <  count($base) || $a->valid() || $b->valid()) {
+        while ($i < count($base) || $a->valid() || $b->valid()) {
             // Assure that $aa is the first hunk by swaping $a and $b
             if ($a->valid() && $b->valid() && $a->current()->getStart() > $b->current()->getStart()) {
                 self::swap($a, $b, $flipped);
@@ -169,7 +169,7 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
                 $a->next();
             } else {
                 // Not dealing with a change, so return the line from the base.
-                if ($i>=0) {
+                if ($i >= 0) {
                     $merged[] = $base[$i]->getContent();
                 }
             }

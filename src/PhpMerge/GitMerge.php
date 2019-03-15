@@ -356,11 +356,11 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
         if (!$this->dir) {
             // Greate a temporary directory.
             $tempfile = tempnam(sys_get_temp_dir(), '');
-            mkdir($tempfile . '.git');
+            mkdir($tempfile.'.git');
             if (file_exists($tempfile)) {
                 unlink($tempfile);
             }
-            $this->dir = $tempfile . '.git';
+            $this->dir = $tempfile.'.git';
             $this->git = $this->wrapper->init($this->dir);
         }
         if ($this->git) {

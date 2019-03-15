@@ -63,7 +63,7 @@ final class Hunk
     {
         $this->start = $start;
         if ($end === null) {
-            $end= $start;
+            $end = $start;
         }
         $this->end = $end;
         if (!is_array($lines)) {
