@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.0 - 2021-12-27
+
+ * Updated sebastian/diff dependency to "^2.0|^3.0|^4.0"
+ * Switched git-wrapper dependency from cpliakas/git-wrapper to symplify/git-wrapper
+ * Added testing infrastructure for php 8
+
 ## 3.0.0 - 2019-03-15
 
  * Updated sebastian/diff dependency to "~2.0|~3.0"
