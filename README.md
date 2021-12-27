@@ -1,8 +1,6 @@
 # php-merge
 
 [![Build Status](https://travis-ci.org/bircher/php-merge.svg?branch=master)](https://travis-ci.org/bircher/php-merge)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e9399164-2b7d-4351-97ae-a600442d1e47/mini.png)](https://insight.sensiolabs.com/projects/e9399164-2b7d-4351-97ae-a600442d1e47)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bircher/php-merge/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bircher/php-merge/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/bircher/php-merge/badge.svg?branch=master)](https://coveralls.io/github/bircher/php-merge?branch=master)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bircher/php-merge/master/LICENSE.txt)
 
@@ -24,7 +22,7 @@ PhpMerge is a small library that solves this problem. There are two classes:
 
 `PhpMerge` uses `SebastianBergmann\Diff\Differ` to get the differences between
 the different versions and calculates the merged text from it.
-`GitMerge` uses `GitWrapper\GitWrapper`, writes the text to a temporary file
+`GitMerge` uses `Symplify\GitWrapper\GitWrapper`, writes the text to a temporary file
 and uses the command line git to merge the text.
 
 ## Usage
@@ -153,7 +151,7 @@ the library as a dependency to your composer.json file.
 ```json
 {
     "require": {
-        "bircher/php-merge": "~3.0"
+        "bircher/php-merge": "~4.0"
     }
 }
 ```
@@ -163,8 +161,8 @@ To use the command line git with `GitMerge`:
 ```json
 {
     "require": {
-        "bircher/php-merge": "~3.0",
-        "cpliakas/git-wrapper": "~2.0"
+        "bircher/php-merge": "~4.0",
+        "symplify/git-wrapper": "^9.1|^10.0"
     }
 }
 ```
@@ -173,15 +171,7 @@ Please refer to [Composer's documentation](https://github.com/composer/composer/
 for installation and usage instructions.
 
 
-## Difference to ~2.0
+## Difference to ~3.0
 
-In the ~3.0 version we updated sebastian/diff from "^1.3" to "~2.0|~3.0".
-This update means that the lines contain the end-of-line character.
-Consequently, we can treat conflicts at the end of the text the same way
-git does and we can return the complete line in the merge conflicts.
-
-If there are no conflicts the behaviour is not changed from ~1.0 and ~2.0.
-Merge conflicts now contain the lines including the \n character.
-
-The 2.1.0 release also has the updated version of sebastian/diff but
-retains the 2.0.0 merge and merge conflict behaviour.
+In the ~4.0 version we switch from `cpliakas/git-wrapper` to `symplify/git-wrapper` since the former is deprecated.
+This update means that there is no change when only using `PhpMerge\PhpMerge`.
