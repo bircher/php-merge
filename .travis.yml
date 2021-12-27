@@ -2,14 +2,14 @@ language: php
 
 matrix:
   include:
-    - php: 7.1
-      env: COMPOSER_FLAGS=--prefer-lowest
-    - php: 7.1
-    - php: 7.2
-      env: STATIC_ANALYSIS=true
-    - php: 7.2
-      env: PHPUNIT_FLAGS="--coverage-clover coverage.xml"
     - php: 7.3
+      env: COMPOSER_FLAGS=--prefer-lowest
+    - php: 7.4
+    - php: 8.0
+    - php: 8.1
+      env: STATIC_ANALYSIS=true
+    - php: 8.1
+      env: PHPUNIT_FLAGS="--coverage-clover coverage.xml"
 
 install:
   - composer update $COMPOSER_FLAGS
@@ -18,10 +18,10 @@ before_script:
   - git --version
 
 script:
+  - if [[ $PHPUNIT_FLAGS != "" ]]; then phpenv config-rm xdebug.ini; fi
   - vendor/bin/phpunit $PHPUNIT_FLAGS
   # disable xdebug if not needed
-  - if [[ $PHPUNIT_FLAGS != "" ]]; then phpenv config-rm xdebug.ini; fi
-  - if [[ $STATIC_ANALYSIS == true ]]; then vendor/bin/grumphp run; fi
+  - if [[ $STATIC_ANALYSIS == true ]]; then vendor/bin/phpstan; fi
 
 after_script:
   # upload coverage.xml to Coveralls
