@@ -76,7 +76,7 @@ final class Hunk
     /**
      * Add a new line to the hunk.
      *
-     * @param \PhpMerge\Line $line
+     * @param \PhpMerge\internal\Line $line
      *   The line to add.
      */
     public function addLine(Line $line)
@@ -257,7 +257,7 @@ final class Hunk
     }
 
     /**
-     * @param \PhpMerge\Hunk|null $hunk
+     * @param \PhpMerge\internal\Hunk|null $hunk
      * @return bool
      */
     public function hasIntersection(Hunk $hunk = null)

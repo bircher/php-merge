@@ -122,16 +122,16 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
             } elseif (!$a->valid() && $b->valid()) {
                 self::swap($a, $b, $flipped);
             }
-            /** @var Hunk $aa */
+            /** @var Hunk|null $aa */
             $aa = $a->current();
-            /** @var Hunk $bb */
+            /** @var Hunk|null $bb */
             $bb = $b->current();
 
-            if ($aa) {
+            if (!is_null($aa)) {
                 assert($aa->getStart() >= $i, 'The start of the hunk is after the current index.');
             }
             // The hunk starts at the current index.
-            if ($aa && $aa->getStart() == $i) {
+            if (!is_null($aa) && $aa->getStart() == $i) {
                 // Hunks from both sources start with the same index.
                 if ($bb && $bb->getStart() == $i) {
                     if ($aa != $bb) {
@@ -149,7 +149,7 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
                 }
             }
             // The conflict resolution could mean the hunk starts now later.
-            if ($aa && $aa->getStart() == $i) {
+            if (!is_null($aa) && $aa->getStart() == $i) {
                 if ($aa->getType() == Hunk::ADDED && $i >= 0) {
                     $merged[] = $base[$i]->getContent();
                 }
