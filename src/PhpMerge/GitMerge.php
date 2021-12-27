@@ -10,8 +10,8 @@
 
 namespace PhpMerge;
 
-use GitWrapper\GitWrapper;
-use GitWrapper\GitException;
+use Symplify\GitWrapper\GitWrapper;
+use Symplify\GitWrapper\Exception\GitException;
 use PhpMerge\internal\Line;
 use PhpMerge\internal\Hunk;
 use PhpMerge\internal\PhpMergeBase;
@@ -40,20 +40,20 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
     /**
      * The git working directory.
      *
-     * @var \GitWrapper\GitWorkingCopy
+     * @var \Symplify\GitWrapper\GitWorkingCopy|null
      */
     protected $git;
 
     /**
      * The git wrapper to use for merging.
      *
-     * @var \GitWrapper\GitWrapper
+     * @var \Symplify\GitWrapper\GitWrapper
      */
     protected $wrapper;
 
     /**
      * The temporary directory in which git can work.
-     * @var string
+     * @var string|null
      */
     protected $dir;
 
@@ -154,14 +154,15 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
      */
     protected static function getConflicts($file, $baseText, $remoteText, $localText, &$conflicts, &$merged)
     {
+        $content = file_get_contents($file);
         $raw = new \ArrayObject(self::splitStringByLines(file_get_contents($file)));
         $lineIterator = $raw->getIterator();
         $state = 'unchanged';
         $conflictIndicator = [
-            '<<<<<<< HEAD' => 'local',
-            '||||||| merged common ancestors' => 'base',
+            '<<<<<<<' => 'local',
+            '|||||||' => 'base',
             '=======' => 'remote',
-            '>>>>>>> original' => 'end conflict',
+            '>>>>>>>' => 'end conflict',
         ];
 
         // Create hunks from the text diff.
@@ -185,9 +186,10 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
         // Loop over all the lines in the file.
         while ($lineIterator->valid()) {
             $line = $lineIterator->current();
-            if (array_key_exists(trim($line), $conflictIndicator)) {
+            $gitKey = substr(trim($line), 0, 7);
+            if (array_key_exists($gitKey, $conflictIndicator)) {
                 // Check for a line matching a conflict indicator.
-                $state = $conflictIndicator[trim($line)];
+                $state = $conflictIndicator[$gitKey];
                 $skipedLines++;
                 if ($state == 'end conflict') {
                     // We just treated a merge conflict.
@@ -234,9 +236,9 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
                         }
                         $merged[] = $line;
 
-                        /** @var Hunk $r */
+                        /** @var Hunk|null $r */
                         $r = $remoteIterator->current();
-                        /** @var Hunk $l */
+                        /** @var Hunk|null $l */
                         $l = $localIterator->current();
 
                         if ($r == $l) {
@@ -247,7 +249,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
 
                         // A hunk has been successfully merged, so we can just
                         // tally the lines added and removed and skip forward.
-                        if ($r && $r->getStart() == $lineNumber) {
+                        if (!is_null($r) && $r->getStart() == $lineNumber) {
                             if (!$r->hasIntersection($l)) {
                                 $lineNumber += count($r->getRemovedLines());
                                 $newLine += count($r->getAddedLines());
@@ -263,7 +265,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
                                     $newLine++;
                                 }
                             }
-                        } elseif ($l && $l->getStart() == $lineNumber) {
+                        } elseif (!is_null($l) && $l->getStart() == $lineNumber) {
                             if (!$l->hasIntersection($r)) {
                                 $lineNumber += count($l->getRemovedLines());
                                 $newLine += count($l->getAddedLines());
@@ -329,12 +331,12 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
     /**
      * Constructor, not setting anything up.
      *
-     * @param \GitWrapper\GitWrapper $wrapper
+     * @param \Symplify\GitWrapper\GitWrapper|null $wrapper
      */
     public function __construct(GitWrapper $wrapper = null)
     {
         if (!$wrapper) {
-            $wrapper = new GitWrapper();
+            $wrapper = new GitWrapper('git');
         }
         $this->wrapper = $wrapper;
         $this->conflict = '';
@@ -369,7 +371,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
      */
     protected function cleanup()
     {
-        if (is_dir($this->dir)) {
+        if (isset($this->dir) && is_dir($this->dir)) {
             // Recursively delete all files and folders.
             $files = new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator($this->dir, \RecursiveDirectoryIterator::SKIP_DOTS),
