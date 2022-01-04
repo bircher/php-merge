@@ -129,10 +129,10 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
                 assert($aa->getStart() >= $i, 'The start of the hunk is after the current index.');
             }
             // The hunk starts at the current index.
-            if (!is_null($aa) && $aa->getStart() == $i) {
+            if (!is_null($aa) && $aa->getStart() === $i) {
                 // Hunks from both sources start with the same index.
-                if ($bb && $bb->getStart() == $i) {
-                    if ($aa != $bb) {
+                if (!is_null($bb) && $bb->getStart() === $i) {
+                    if (!$aa->isSame($bb)) {
                         // If the hunks are not the same its a conflict.
                         $conflicts[] = self::prepareConflict($base, $a, $b, $flipped, count($merged));
                         $aa = $a->current();
@@ -147,12 +147,12 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
                 }
             }
             // The conflict resolution could mean the hunk starts now later.
-            if (!is_null($aa) && $aa->getStart() == $i) {
-                if ($aa->getType() == Hunk::ADDED && $i >= 0) {
+            if (!is_null($aa) && $aa->getStart() === $i) {
+                if ($aa->getType() === Hunk::ADDED && $i >= 0) {
                     $merged[] = $base[$i]->getContent();
                 }
 
-                if ($aa->getType() != Hunk::REMOVED) {
+                if ($aa->getType() !== Hunk::REMOVED) {
                     foreach ($aa->getAddedLines() as $line) {
                         $merged[] = $line->getContent();
                     }
@@ -200,10 +200,10 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
         $bb = $b->current();
 
         // If one of the hunks is added but the other one does not start there.
-        if ($aa->getType() == Hunk::ADDED && $bb->getType() != Hunk::ADDED) {
+        if ($aa->getType() === Hunk::ADDED && $bb->getType() !== Hunk::ADDED) {
             $start = $bb->getStart();
             $end = $bb->getEnd();
-        } elseif ($aa->getType() != Hunk::ADDED && $bb->getType() == Hunk::ADDED) {
+        } elseif ($aa->getType() !== Hunk::ADDED && $bb->getType() === Hunk::ADDED) {
             $start = $aa->getStart();
             $end = $aa->getEnd();
         } else {
@@ -216,7 +216,7 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
         $baseLines = [];
         $remoteLines = [];
         $localLines = [];
-        if ($aa->getType() != Hunk::ADDED || $bb->getType() != Hunk::ADDED) {
+        if ($aa->getType() !== Hunk::ADDED || $bb->getType() !== Hunk::ADDED) {
             // If the start is after the start of the hunk, include it first.
             if ($aa->getStart() < $start) {
                 $remoteLines = $aa->getLinesContent();
@@ -229,16 +229,16 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
                 // For conflicts that happened on overlapping lines.
                 if ($i < $aa->getStart() || $i > $aa->getEnd()) {
                     $remoteLines[] = $base[$i]->getContent();
-                } elseif ($i == $aa->getStart()) {
-                    if ($aa->getType() == Hunk::ADDED) {
+                } elseif ($i === $aa->getStart()) {
+                    if ($aa->getType() === Hunk::ADDED) {
                         $remoteLines[] = $base[$i]->getContent();
                     }
                     $remoteLines = array_merge($remoteLines, $aa->getLinesContent());
                 }
                 if ($i < $bb->getStart() || $i > $bb->getEnd()) {
                     $localLines[] = $base[$i]->getContent();
-                } elseif ($i == $bb->getStart()) {
-                    if ($bb->getType() == Hunk::ADDED) {
+                } elseif ($i === $bb->getStart()) {
+                    if ($bb->getType() === Hunk::ADDED) {
                         $localLines[] = $base[$i]->getContent();
                     }
                     $localLines = array_merge($localLines, $bb->getLinesContent());

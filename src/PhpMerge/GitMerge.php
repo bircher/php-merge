@@ -260,7 +260,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
                         /** @var Hunk|null $l */
                         $l = $localIterator->current();
 
-                        if ($r == $l) {
+                        if (!is_null($r) && $r->isSame($l)) {
                             // If they are the same, treat only one.
                             $localIterator->next();
                             $l = $localIterator->current();
@@ -268,7 +268,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
 
                         // A hunk has been successfully merged, so we can just
                         // tally the lines added and removed and skip forward.
-                        if (!is_null($r) && $r->getStart() == $lineNumber) {
+                        if (!is_null($r) && $r->getStart() === $lineNumber) {
                             if (!$r->hasIntersection($l)) {
                                 $lineNumber += count($r->getRemovedLines());
                                 $newLine += count($r->getAddedLines());
@@ -277,14 +277,14 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
                             } else {
                                 // If the conflict occurs on added lines, the
                                 // next line in the merge will deal with it.
-                                if ($r->getType() == Hunk::ADDED && $l->getType() == Hunk::ADDED) {
+                                if ($r->getType() === Hunk::ADDED && $l->getType() === Hunk::ADDED) {
                                     $addingConflict = true;
                                 } else {
                                     $lineNumber++;
                                     $newLine++;
                                 }
                             }
-                        } elseif (!is_null($l) && $l->getStart() == $lineNumber) {
+                        } elseif (!is_null($l) && $l->getStart() === $lineNumber) {
                             if (!$l->hasIntersection($r)) {
                                 $lineNumber += count($l->getRemovedLines());
                                 $newLine += count($l->getAddedLines());
@@ -307,7 +307,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
         $rawBase = self::splitStringByLines($baseText);
         $lastConflict = end($conflicts);
         // Check if the last conflict was at the end of the text.
-        if ($lastConflict->getBaseLine() + count($lastConflict->getBase()) == count($rawBase)) {
+        if ($lastConflict->getBaseLine() + count($lastConflict->getBase()) === count($rawBase)) {
             // Fix the last lines of all the texts as we can not know from
             // the merged text if there was a new line at the end or not.
             $base = self::fixLastLine($lastConflict->getBase(), $rawBase);

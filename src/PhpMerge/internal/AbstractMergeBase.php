@@ -41,13 +41,13 @@ abstract class PhpMergeBase implements PhpMergeInterface
     protected static function simpleMerge(string $base, string $remote, string $local)
     {
         // Skip complex merging if there is nothing to do.
-        if ($base == $remote) {
+        if ($base === $remote) {
             return $local;
         }
-        if ($base == $local) {
+        if ($base === $local) {
             return $remote;
         }
-        if ($remote == $local) {
+        if ($remote === $local) {
             return $remote;
         }
         // Return nothing and let sub-classes deal with it.
