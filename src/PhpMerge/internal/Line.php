@@ -108,4 +108,14 @@ final class Line
     {
         return $this->type;
     }
+
+    /**
+     * @param Line $other
+     *
+     * @return bool
+     */
+    public function isSame(Line $other): bool
+    {
+        return $this->type === $other->type && $this->index === $other->index && $this->content === $other->content;
+    }
 }

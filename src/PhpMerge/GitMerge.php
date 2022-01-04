@@ -16,7 +16,7 @@ use Symplify\GitWrapper\GitWrapper;
 use Symplify\GitWrapper\Exception\GitException;
 use PhpMerge\internal\Line;
 use PhpMerge\internal\Hunk;
-use PhpMerge\internal\PhpMergeBase;
+use PhpMerge\internal\AbstractMergeBase;
 use SebastianBergmann\Diff\Differ;
 
 /**
@@ -28,7 +28,7 @@ use SebastianBergmann\Diff\Differ;
  * with merging, it has a considerable performance implication. So now this
  * implementation serves as a reference to make sure the other classes behave.
  */
-final class GitMerge extends PhpMergeBase implements PhpMergeInterface
+final class GitMerge extends AbstractMergeBase implements PhpMergeInterface
 {
 
     /**
@@ -88,7 +88,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
     {
 
         // Skip merging if there is nothing to do.
-        if ($merged = PhpMergeBase::simpleMerge($base, $remote, $local)) {
+        if ($merged = AbstractMergeBase::simpleMerge($base, $remote, $local)) {
             return $merged;
         }
 

@@ -14,7 +14,7 @@ namespace PhpMerge;
 
 use PhpMerge\internal\Line;
 use PhpMerge\internal\Hunk;
-use PhpMerge\internal\PhpMergeBase;
+use PhpMerge\internal\AbstractMergeBase;
 use SebastianBergmann\Diff\Differ;
 
 /**
@@ -24,7 +24,7 @@ use SebastianBergmann\Diff\Differ;
  * an instance of \SebastianBergmann\Diff\Differ. The merge algorithm goes
  * through all the lines and decides which to line to use.
  */
-final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
+final class PhpMerge extends AbstractMergeBase implements PhpMergeInterface
 {
 
     /**
@@ -55,7 +55,7 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
     public function merge(string $base, string $remote, string $local) : string
     {
         // Skip merging if there is nothing to do.
-        if ($merged = PhpMergeBase::simpleMerge($base, $remote, $local)) {
+        if ($merged = AbstractMergeBase::simpleMerge($base, $remote, $local)) {
             return $merged;
         }
 

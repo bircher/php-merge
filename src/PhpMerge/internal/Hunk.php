@@ -63,7 +63,7 @@ final class Hunk
         }
         $this->end = $end;
         if (!is_array($lines)) {
-            $lines = array($lines);
+            $lines = [$lines];
         }
         $this->lines = $lines;
         $this->type = $type;
@@ -98,7 +98,7 @@ final class Hunk
         foreach ($lines as $line) {
             switch ($line->getType()) {
                 case Line::REMOVED:
-                    if (Line::REMOVED != $op) {
+                    if (Line::REMOVED !== $op) {
                         // The last line was not removed so we start a new hunk.
                         $current = new Hunk($line, Hunk::REMOVED, $line->getIndex());
                     } else {
@@ -190,7 +190,7 @@ final class Hunk
         return array_values(array_filter(
             $this->lines,
             function (Line $line) {
-                return $line->getType() == Line::REMOVED;
+                return $line->getType() === Line::REMOVED;
             }
         ));
     }
@@ -205,7 +205,7 @@ final class Hunk
         return array_values(array_filter(
             $this->lines,
             function (Line $line) {
-                return $line->getType() == Line::ADDED;
+                return $line->getType() === Line::ADDED;
             }
         ));
     }
@@ -238,7 +238,7 @@ final class Hunk
     {
         // Added lines also affect the ones afterwards in conflict resolution,
         // because they are added in between.
-        $bleed = ($this->type == self::ADDED ? 1 : 0);
+        $bleed = ($this->type === self::ADDED ? 1 : 0);
 
         return ($line >= $this->start && $line <= $this->end + $bleed);
     }
@@ -253,12 +253,37 @@ final class Hunk
         if (!$hunk) {
             return false;
         }
-        if ($this->type == self::ADDED && $hunk->type == self::ADDED) {
-            return $this->start == $hunk->start;
+        if ($this->type === self::ADDED && $hunk->type === self::ADDED) {
+            return $this->start === $hunk->start;
         }
 
         return $this->isLineNumberAffected($hunk->start) || $this->isLineNumberAffected($hunk->end)
           || $hunk->isLineNumberAffected($this->start) || $hunk->isLineNumberAffected($this->end);
+    }
+
+    /**
+     * @param \PhpMerge\internal\Hunk|null $other
+     *
+     * @return bool
+     */
+    public function isSame(Hunk $other = null): bool
+    {
+        if (is_null($other)) {
+            return false;
+        }
+        if ($this->type !== $other->type || $this->start !== $other->start || $this->end !== $other->end) {
+            return false;
+        }
+        if (count($this->lines) !== count($other->lines)) {
+            return false;
+        }
+        foreach ($this->lines as $key => $line) {
+            if (!$line->isSame($other->lines[$key])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

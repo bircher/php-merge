@@ -22,7 +22,7 @@ use PhpMerge\PhpMergeInterface;
  *
  * @internal This class is not part of the public api.
  */
-abstract class PhpMergeBase implements PhpMergeInterface
+abstract class AbstractMergeBase implements PhpMergeInterface
 {
 
     /**
