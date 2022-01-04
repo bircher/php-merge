@@ -27,14 +27,6 @@ use SebastianBergmann\Diff\Differ;
  * This was the original merge class but while it is nice not to have to deal
  * with merging, it has a considerable performance implication. So now this
  * implementation serves as a reference to make sure the other classes behave.
- *
- * @package   PhpMerge
- * @author    Fabian Bircher <opensource@fabianbircher.com>
- * @copyright 2015 Fabian Bircher <opensource@fabianbircher.com>
- * @license   https://opensource.org/licenses/MIT
- * @version   Release: @package_version@
- * @link      http://github.com/bircher/php-merge
- * @category  library
  */
 final class GitMerge extends PhpMergeBase implements PhpMergeInterface
 {
@@ -197,11 +189,11 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
         $remoteDiff = Line::createArray($differ->diffToArray($baseText, $remoteText));
         $localDiff = Line::createArray($differ->diffToArray($baseText, $localText));
 
-        $remote_hunks = new \ArrayObject(Hunk::createArray($remoteDiff));
-        $local_hunks = new \ArrayObject(Hunk::createArray($localDiff));
+        $remoteHunks = new \ArrayObject(Hunk::createArray($remoteDiff));
+        $localHunks = new \ArrayObject(Hunk::createArray($localDiff));
 
-        $remoteIterator = $remote_hunks->getIterator();
-        $localIterator = $local_hunks->getIterator();
+        $remoteIterator = $remoteHunks->getIterator();
+        $localIterator = $localHunks->getIterator();
 
         $base = [];
         $remote = [];
@@ -218,10 +210,10 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
                 // Check for a line matching a conflict indicator.
                 $state = $conflictIndicator[$gitKey];
                 $skipedLines++;
-                if ($state == 'end conflict') {
+                if ('end conflict' === $state) {
                     // We just treated a merge conflict.
                     $conflicts[] = new MergeConflict($base, $remote, $local, $lineNumber, $newLine);
-                    if ($lineNumber == -1) {
+                    if (-1 === $lineNumber) {
                         $lineNumber = 0;
                     }
                     $lineNumber += count($base);
@@ -249,7 +241,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
                     case 'base':
                         $base[] = $line;
                         $skipedLines++;
-                        if ($lineNumber == -1) {
+                        if (-1 === $lineNumber) {
                             $lineNumber = 0;
                         }
                         break;
@@ -258,7 +250,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
                         $merged[] = $line;
                         break;
                     case 'unchanged':
-                        if ($lineNumber == -1) {
+                        if (-1 === $lineNumber) {
                             $lineNumber = 0;
                         }
                         $merged[] = $line;
@@ -349,7 +341,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
     {
         $last = end($all);
         $lastLine = end($lines);
-        if ($lastLine !== false && $last !== $lastLine && rtrim($lastLine) === $last) {
+        if (false !== $lastLine && $last !== $lastLine && rtrim($lastLine) === $last) {
             $lines[key($lines)] = $last;
         }
 

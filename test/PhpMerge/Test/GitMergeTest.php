@@ -44,10 +44,10 @@ class GitMergeTest extends AbstractPhpMergeTest
 
         $abc = $merger->merge("A\nb\nC", "A\nb\nc", "a\nb\nC");
         $this->assertEquals($abc, "a\nb\nc");
-        $temp_dir = $dir->getValue($merger);
-        $this->assertTrue(is_dir($temp_dir), "Temporary directory created.");
+        $temp = $dir->getValue($merger);
+        $this->assertTrue(is_dir($temp), "Temporary directory created.");
 
         unset($merger);
-        $this->assertFalse(is_dir($temp_dir), "Temporary directory cleaned up.");
+        $this->assertFalse(is_dir($temp), "Temporary directory cleaned up.");
     }
 }

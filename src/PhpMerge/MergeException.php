@@ -18,13 +18,6 @@ namespace PhpMerge;
  * A merge exception thrown when a merge conflict occurs, catch it to get both
  * the array of conflicts and a merged version of the text when the conflicts
  * have been resolved by using the first variation.
- *
- * @package    PhpMerge
- * @author     Fabian Bircher <opensource@fabianbircher.com>
- * @copyright  Fabian Bircher <opensource@fabianbircher.com>
- * @license    https://opensource.org/licenses/MITe
- * @version    Release: @package_version@
- * @link       http://github.com/bircher/php-merge
  */
 final class MergeException extends \RuntimeException
 {

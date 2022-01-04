@@ -23,13 +23,6 @@ use SebastianBergmann\Diff\Differ;
  * The merge class which in most cases will work, the diff is calculated using
  * an instance of \SebastianBergmann\Diff\Differ. The merge algorithm goes
  * through all the lines and decides which to line to use.
- *
- * @package    PhpMerge
- * @author     Fabian Bircher <opensource@fabianbircher.com>
- * @copyright  Fabian Bircher <opensource@fabianbircher.com>
- * @license    https://opensource.org/licenses/MIT
- * @version    Release: @package_version@
- * @link       http://github.com/bircher/php-merge
  */
 final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
 {

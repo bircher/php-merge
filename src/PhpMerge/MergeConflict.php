@@ -18,13 +18,6 @@ namespace PhpMerge;
  * This represents a merge conflict it includes the lines of the original and
  * both variations as well as the index on the original text where the conflict
  * starts.
- *
- * @package    PhpMerge
- * @author     Fabian Bircher <opensource@fabianbircher.com>
- * @copyright  Fabian Bircher <opensource@fabianbircher.com>
- * @license    https://opensource.org/licenses/MIT
- * @version    Release: @package_version@
- * @link       http://github.com/bircher/php-merge
  */
 final class MergeConflict
 {

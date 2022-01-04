@@ -20,13 +20,7 @@ use PhpMerge\PhpMergeInterface;
  * The base class implementing only the simplest logic which is common to all
  * implementations.
  *
- * @package    PhpMerge
- * @author     Fabian Bircher <opensource@fabianbircher.com>
- * @copyright  Fabian Bircher <opensource@fabianbircher.com>
- * @license    https://opensource.org/licenses/MIT
- * @version    Release: @package_version@
- * @link       http://github.com/bircher/php-merge
- * @internal   This class is not part of the public api.
+ * @internal This class is not part of the public api.
  */
 abstract class PhpMergeBase implements PhpMergeInterface
 {

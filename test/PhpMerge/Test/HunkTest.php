@@ -17,10 +17,7 @@ use PhpMerge\internal\Line;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class HunkTest
- * @package PhpMerge\Test
- *
- * @group hunk
+ * @group internal
  */
 class HunkTest extends TestCase
 {

@@ -15,12 +15,7 @@ namespace PhpMerge;
 /**
  * Interface PhpMergeInterface.
  *
- * @package    PhpMerge
- * @author     Fabian Bircher <opensource@fabianbircher.com>
- * @copyright  Fabian Bircher <opensource@fabianbircher.com>
- * @license    https://opensource.org/licenses/MIT
- * @version    Release: @package_version@
- * @link       http://github.com/bircher/php-merge
+ * The interface implemented by the different mergers.
  */
 interface PhpMergeInterface
 {

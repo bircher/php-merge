@@ -17,8 +17,7 @@ use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Diff\Differ;
 
 /**
- * Class LineTest
- * @package PhpMerge\Test
+ * @group internal
  */
 class LineTest extends TestCase
 {
@@ -60,11 +59,9 @@ EOD;
         ];
 
         $differ = new Differ();
-        $array_diff = $differ->diffToArray($before, $after);
-        $this->assertEquals($diff, $array_diff);
+        $this->assertEquals($diff, $differ->diffToArray($before, $after));
 
-        $result = Line::createArray($diff);
-        $this->assertEquals($lines, $result);
+        $this->assertEquals($lines, Line::createArray($diff));
 
         try {
             $diff[] = ["invalid", 3];

@@ -17,13 +17,7 @@ namespace PhpMerge\internal;
  *
  * This represents a collection of changed lines.
  *
- * @package    PhpMerge
- * @author     Fabian Bircher <opensource@fabianbircher.com>
- * @copyright  Fabian Bircher <opensource@fabianbircher.com>
- * @license    https://opensource.org/licenses/MIT
- * @version    Release: @package_version@
- * @link       http://github.com/bircher/php-merge
- * @internal   This class is not part of the public api.
+ * @internal This class is not part of the public api.
  */
 final class Hunk
 {
@@ -64,7 +58,7 @@ final class Hunk
     public function __construct($lines, $type, $start, $end = null)
     {
         $this->start = $start;
-        if ($end === null) {
+        if (is_null($end)) {
             $end = $start;
         }
         $this->end = $end;
@@ -104,7 +98,7 @@ final class Hunk
         foreach ($lines as $line) {
             switch ($line->getType()) {
                 case Line::REMOVED:
-                    if ($op != Line::REMOVED) {
+                    if (Line::REMOVED != $op) {
                         // The last line was not removed so we start a new hunk.
                         $current = new Hunk($line, Hunk::REMOVED, $line->getIndex());
                     } else {
@@ -251,6 +245,7 @@ final class Hunk
 
     /**
      * @param \PhpMerge\internal\Hunk|null $hunk
+     *
      * @return bool
      */
     public function hasIntersection(Hunk $hunk = null)

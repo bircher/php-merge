@@ -15,13 +15,7 @@ namespace PhpMerge\internal;
 /**
  * Class Line
  *
- * @package    PhpMerge
- * @author     Fabian Bircher <opensource@fabianbircher.com>
- * @copyright  Fabian Bircher <opensource@fabianbircher.com>
- * @license    https://opensource.org/licenses/MIT
- * @version    Release: @package_version@
- * @link       http://github.com/bircher/php-merge
- * @internal   This class is not part of the public api.
+ * @internal This class is not part of the public api.
  */
 final class Line
 {
@@ -67,6 +61,7 @@ final class Line
 
     /**
      * @param array $diff
+     *
      * @return Line[]
      */
     public static function createArray($diff)
