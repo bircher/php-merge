@@ -66,6 +66,30 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
     protected $conflict;
 
     /**
+     * Constructor, not setting anything up.
+     *
+     * @param \Symplify\GitWrapper\GitWrapper|null $wrapper
+     */
+    public function __construct(GitWrapper $wrapper = null)
+    {
+        if (!$wrapper) {
+            $wrapper = new GitWrapper('git');
+        }
+        $this->wrapper = $wrapper;
+        $this->conflict = '';
+        $this->git = null;
+        $this->dir = null;
+    }
+
+    /**
+     * Clean up the temporary git directory.
+     */
+    public function __destruct()
+    {
+        $this->cleanup();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function merge(string $base, string $remote, string $local) : string
@@ -135,6 +159,7 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
         $this->git->commit('Add local.');
 
         $this->git->merge('original');
+
         return file_get_contents($file);
     }
 
@@ -327,23 +352,8 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
         if ($lastLine !== false && $last !== $lastLine && rtrim($lastLine) === $last) {
             $lines[key($lines)] = $last;
         }
-        return $lines;
-    }
 
-    /**
-     * Constructor, not setting anything up.
-     *
-     * @param \Symplify\GitWrapper\GitWrapper|null $wrapper
-     */
-    public function __construct(GitWrapper $wrapper = null)
-    {
-        if (!$wrapper) {
-            $wrapper = new GitWrapper('git');
-        }
-        $this->wrapper = $wrapper;
-        $this->conflict = '';
-        $this->git = null;
-        $this->dir = null;
+        return $lines;
     }
 
     /**
@@ -390,13 +400,5 @@ final class GitMerge extends PhpMergeBase implements PhpMergeInterface
             rmdir($this->dir);
             unset($this->git);
         }
-    }
-
-    /**
-     * Clean up the temporary git directory.
-     */
-    public function __destruct()
-    {
-        $this->cleanup();
     }
 }

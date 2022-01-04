@@ -147,16 +147,6 @@ final class Hunk
     }
 
     /**
-     * Set the type of the hunk.
-     *
-     * @param int $type
-     */
-    protected function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    /**
      * Get the line index where the hunk starts.
      *
      * @return int
@@ -255,6 +245,7 @@ final class Hunk
         // Added lines also affect the ones afterwards in conflict resolution,
         // because they are added in between.
         $bleed = ($this->type == self::ADDED ? 1 : 0);
+
         return ($line >= $this->start && $line <= $this->end + $bleed);
     }
 
@@ -270,7 +261,18 @@ final class Hunk
         if ($this->type == self::ADDED && $hunk->type == self::ADDED) {
             return $this->start == $hunk->start;
         }
+
         return $this->isLineNumberAffected($hunk->start) || $this->isLineNumberAffected($hunk->end)
           || $hunk->isLineNumberAffected($this->start) || $hunk->isLineNumberAffected($this->end);
+    }
+
+    /**
+     * Set the type of the hunk.
+     *
+     * @param int $type
+     */
+    protected function setType($type)
+    {
+        $this->type = $type;
     }
 }

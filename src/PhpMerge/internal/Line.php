@@ -94,6 +94,7 @@ final class Line
             }
             $lines[] = $line;
         }
+
         return $lines;
     }
 

@@ -175,6 +175,7 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
             // Finally, advance the index.
             $i++;
         }
+
         return $merged;
     }
 
@@ -256,6 +257,7 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
         }
 
         $b->next();
+
         return new MergeConflict($baseLines, $remoteLines, $localLines, $start, $mergedLine);
     }
 
