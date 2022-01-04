@@ -43,6 +43,9 @@ final class PhpMerge extends PhpMergeBase implements PhpMergeInterface
 
     /**
      * PhpMerge constructor.
+     *
+     * @param Differ|null $differ
+     *   The differ to use.
      */
     public function __construct(Differ $differ = null)
     {

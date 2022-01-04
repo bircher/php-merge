@@ -22,7 +22,7 @@ use SebastianBergmann\Diff\Differ;
  */
 class LineTest extends TestCase
 {
-    
+
     public function testCreate()
     {
 
@@ -47,7 +47,7 @@ EOD;
         ["replaced\n", 2],
         ["replacement\n", 1],
         ["unchanged\n", 0],
-        ["removed\n", 2]
+        ["removed\n", 2],
         ];
 
         $lines = [

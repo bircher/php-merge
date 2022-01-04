@@ -480,6 +480,6 @@ EOD;
      */
     protected static function split($string, $emptyLines = 1)
     {
-        return implode("\n", str_split($string)) . str_repeat("\n", $emptyLines);
+        return implode("\n", str_split($string)).str_repeat("\n", $emptyLines);
     }
 }
