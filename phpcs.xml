@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Module">
+  <arg name="extensions" value="php,txt,md,yml"/>
+  <file>.</file>
+  <exclude-pattern>vendor/*</exclude-pattern>
+
+  <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony"/>
+
+  <!-- Use 's' to print the full sniff name in the report. -->
+  <!-- A '-' is prefixed to each of these, so s becomes -s, etc. -->
+  <arg value="s"/>
+  <arg value="-colors"/>
+  <arg name='report-width' value='120'/>
+
+  <!-- Ignore all files that match these patterns. They are matched against -->
+  <!-- the full file path and there is an implied wildcard at each end. -->
+  <!-- Periods must be escaped using \. -->
+  <exclude-pattern>_ignore</exclude-pattern>
+  <exclude-pattern>\.patch</exclude-pattern>
+  <exclude-pattern>interdiff</exclude-pattern>
+
+
+  <!-- We exclude some rules. -->
+  <rule ref="Symfony.Commenting.FunctionComment.SpacingAfterParamType">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Symfony.Commenting.FunctionComment.Missing">
+    <!-- Allow missing doc-blocks in tests. -->
+    <exclude-pattern>test</exclude-pattern>
+  </rule>
+  <rule ref="Symfony.Commenting.ClassComment.Missing">
+    <!-- Allow missing doc-blocks in tests. -->
+    <exclude-pattern>test</exclude-pattern>
+  </rule>
+  <rule ref="Symfony.Functions.ScopeOrder.Invalid">
+    <!-- Do not enforce visibility order in tests-->
+    <exclude-pattern>test</exclude-pattern>
+  </rule>
+
+</ruleset>
