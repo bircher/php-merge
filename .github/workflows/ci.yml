@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [ 4.x ]
+  pull_request:
+    branches: [ 4.x ]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    name: All tools
+    steps:
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        coverage: xdebug
+        tools: cs2pr, phpcs, phpstan, psalm, phpmd
+
+    - uses: actions/checkout@v2
+
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-prefer-stable-${{ hashFiles('**/composer.json') }}
+        restore-keys: ${{ runner.os }}-composer-prefer-stable-
+
+    - name: Install Dependencies
+      run: composer update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Run PHPUnit
+      run: vendor/bin/phpunit --coverage-clover coverage.xml
+    - name: Run Psalm
+      run: phpstan
+    - name: Run Psalm
+      run: psalm --output-format=github
+    - name: Run phpcs
+      run: phpcs -q --report=checkstyle src | cs2pr
+#    - name: Run phpmd
+#      run: phpmd src github phpmd.xml
+    - name: Upload coverage results to Coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        composer global require php-coveralls/php-coveralls
+        php-coveralls --coverage_clover=coverage.xml -v
+
+  other:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: [ '7.4', '8.0' ]
+        prefer: [ 'prefer-stable' ]
+        include:
+          - php-versions: '7.3'
+            prefer: 'prefer-lowest'
+    name: PHP ${{ matrix.php-versions }}
+    steps:
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        coverage: none
+
+    - uses: actions/checkout@v2
+
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ matrix.prefer }}-${{ hashFiles('**/composer.json') }}
+        restore-keys: ${{ runner.os }}-composer-${{ matrix.prefer }}-
+
+    - name: Install Dependencies
+      run: composer update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --${{ matrix.prefer }}
+
+    - name: PHPUnit
+      run: vendor/bin/phpunit
+
