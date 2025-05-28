@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="Module">
-  <arg name="extensions" value="php,txt,md,yml"/>
-  <file>.</file>
-  <exclude-pattern>vendor/*</exclude-pattern>
+  <arg name="extensions" value="php"/>
+  <file>src</file><file>test</file>
 
   <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony"/>
 
