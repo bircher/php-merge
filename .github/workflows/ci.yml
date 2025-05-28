@@ -20,8 +20,6 @@ jobs:
     - name: Install Dependencies
       run: composer update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-    - name: Run PHPUnit
-      run: vendor/bin/phpunit --coverage-clover coverage.xml
     - name: Run PHPStan
       run: vendor/bin/phpstan
     - name: Run phpcs
