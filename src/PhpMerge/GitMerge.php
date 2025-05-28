@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace PhpMerge;
 
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Symplify\GitWrapper\GitWrapper;
 use Symplify\GitWrapper\Exception\GitException;
 use PhpMerge\internal\Line;
@@ -186,7 +187,7 @@ final class GitMerge extends AbstractMergeBase implements PhpMergeInterface
         ];
 
         // Create hunks from the text diff.
-        $differ = new Differ();
+        $differ = new Differ(new UnifiedDiffOutputBuilder());
         $remoteDiff = Line::createArray($differ->diffToArray($baseText, $remoteText));
         $localDiff = Line::createArray($differ->diffToArray($baseText, $localText));
 

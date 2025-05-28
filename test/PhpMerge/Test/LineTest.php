@@ -15,6 +15,7 @@ namespace PhpMerge\Test;
 use PhpMerge\internal\Line;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 
 /**
  * @group internal
@@ -58,7 +59,7 @@ EOD;
         new Line(Line::REMOVED, "removed\n", 3),
         ];
 
-        $differ = new Differ();
+        $differ = new Differ(new UnifiedDiffOutputBuilder());
         $this->assertEquals($diff, $differ->diffToArray($before, $after));
 
         $this->assertEquals($lines, Line::createArray($diff));
