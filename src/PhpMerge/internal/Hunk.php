@@ -248,7 +248,7 @@ final class Hunk
      *
      * @return bool
      */
-    public function hasIntersection(Hunk $hunk = null)
+    public function hasIntersection(?Hunk $hunk = null)
     {
         if (!$hunk) {
             return false;
@@ -266,7 +266,7 @@ final class Hunk
      *
      * @return bool
      */
-    public function isSame(Hunk $other = null): bool
+    public function isSame(?Hunk $other = null): bool
     {
         if (is_null($other)) {
             return false;

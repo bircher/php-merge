@@ -46,7 +46,7 @@ final class MergeException extends \RuntimeException
      * @param \Exception $previous
      *   The previous exception used for the exception chaining.
      */
-    public function __construct($message = "", $conflicts = [], $merged = null, $code = 0, \Exception $previous = null)
+    public function __construct($message = "", $conflicts = [], $merged = null, $code = 0, ?\Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
         $this->conflicts = $conflicts;

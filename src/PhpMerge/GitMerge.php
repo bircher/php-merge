@@ -62,7 +62,7 @@ final class GitMerge extends AbstractMergeBase implements PhpMergeInterface
      *
      * @param \Symplify\GitWrapper\GitWrapper|null $wrapper
      */
-    public function __construct(GitWrapper $wrapper = null)
+    public function __construct(?GitWrapper $wrapper = null)
     {
         if (!$wrapper) {
             $wrapper = new GitWrapper('git');
@@ -83,6 +83,7 @@ final class GitMerge extends AbstractMergeBase implements PhpMergeInterface
 
     /**
      * {@inheritdoc}
+     * @phpstan-impure
      */
     public function merge(string $base, string $remote, string $local) : string
     {

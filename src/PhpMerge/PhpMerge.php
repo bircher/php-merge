@@ -40,7 +40,7 @@ final class PhpMerge extends AbstractMergeBase implements PhpMergeInterface
      * @param Differ|null $differ
      *   The differ to use.
      */
-    public function __construct(Differ $differ = null)
+    public function __construct(?Differ $differ = null)
     {
         if (!$differ) {
             $differ = new Differ();
