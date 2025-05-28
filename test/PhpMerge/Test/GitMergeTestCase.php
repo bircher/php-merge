@@ -20,7 +20,7 @@ use PhpMerge\PhpMergeInterface;
 /**
  * @group git-merge
  */
-class GitMergeTest extends AbstractPhpMergeTest
+class GitMergeTestCase extends AbstractPhpMergeTestCase
 {
 
     /**
