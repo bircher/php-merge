@@ -17,7 +17,7 @@ use PhpMerge\MergeException;
 use PhpMerge\PhpMergeInterface;
 use PHPUnit\Framework\TestCase;
 
-abstract class AbstractPhpMergeTestCase extends TestCase
+abstract class AbstractPhpMergeTest extends TestCase
 {
     /**
      * Merger class.

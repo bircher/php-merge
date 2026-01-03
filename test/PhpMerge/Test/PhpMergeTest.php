@@ -18,7 +18,7 @@ use PhpMerge\PhpMergeInterface;
 /**
  * @group php-merge
  */
-class PhpMergeTestCase extends AbstractPhpMergeTestCase
+class PhpMergeTest extends AbstractPhpMergeTest
 {
 
     /**
