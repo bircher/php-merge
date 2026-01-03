@@ -1,5 +1,5 @@
 {
-    "name": "ondrejmirtes/php-merge",
+    "name": "bircher/php-merge",
     "type": "library",
     "description": "A PHP merge utility using the Diff php library or the command line git.",
     "keywords": ["git", "merge", "php-merge"],

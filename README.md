@@ -1,5 +1,7 @@
 # php-merge
 
+[![Build Status](https://travis-ci.org/bircher/php-merge.svg?branch=master)](https://travis-ci.org/bircher/php-merge)
+[![Coverage Status](https://coveralls.io/repos/github/bircher/php-merge/badge.svg?branch=master)](https://coveralls.io/github/bircher/php-merge?branch=master)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bircher/php-merge/master/LICENSE.txt)
 
 ## Introduction
@@ -149,7 +151,7 @@ the library as a dependency to your composer.json file.
 ```json
 {
     "require": {
-        "ondrejmirtes/php-merge": "~4.0"
+        "bircher/php-merge": "~4.0"
     }
 }
 ```
@@ -159,7 +161,7 @@ To use the command line git with `GitMerge`:
 ```json
 {
     "require": {
-        "ondrejmirtes/php-merge": "~4.0",
+        "bircher/php-merge": "~4.0",
         "symplify/git-wrapper": "^9.1|^10.0"
     }
 }
