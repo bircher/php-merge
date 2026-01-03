@@ -1,7 +1,6 @@
 # php-merge
 
-[![Build Status](https://travis-ci.org/bircher/php-merge.svg?branch=master)](https://travis-ci.org/bircher/php-merge)
-[![Coverage Status](https://coveralls.io/repos/github/bircher/php-merge/badge.svg?branch=master)](https://coveralls.io/github/bircher/php-merge?branch=master)
+[![CI Status](https://github.com/bircher/php-merge/workflows/CI/badge.svg)](https://github.com/bircher/php-merge/actions)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bircher/php-merge/master/LICENSE.txt)
 
 ## Introduction
