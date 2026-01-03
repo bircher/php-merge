@@ -67,7 +67,7 @@ EOD;
         try {
             $diff[] = ["invalid", 3];
             Line::createArray($diff);
-            $this->assertTrue(false, 'An exception was not thrown');
+            $this->fail('An exception was not thrown');
         } catch (\RuntimeException $e) {
             $this->assertEquals('Unsupported diff line type.', $e->getMessage());
         }

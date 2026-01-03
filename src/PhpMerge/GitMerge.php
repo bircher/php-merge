@@ -206,7 +206,7 @@ final class GitMerge extends AbstractMergeBase implements PhpMergeInterface
         $addingConflict = false;
         // Loop over all the lines in the file.
         while ($lineIterator->valid()) {
-            $line = $lineIterator->current();
+            $line = (string) $lineIterator->current();
             $gitKey = substr(trim($line), 0, 7);
             if (array_key_exists($gitKey, $conflictIndicator)) {
                 // Check for a line matching a conflict indicator.

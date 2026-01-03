@@ -93,7 +93,7 @@ final class Hunk
     {
         $op = Line::UNCHANGED;
         $hunks = [];
-        /** @var Hunk $current */
+        /** @var ?Hunk $current */
         $current = null;
         foreach ($lines as $line) {
             switch ($line->getType()) {

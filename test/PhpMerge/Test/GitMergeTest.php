@@ -20,7 +20,7 @@ use PhpMerge\PhpMergeInterface;
 /**
  * @group git-merge
  */
-class GitMergeTest extends AbstractPhpMergeTest
+class GitMergeTest extends AbstractPhpMergeTestCase
 {
 
     /**
@@ -37,14 +37,16 @@ class GitMergeTest extends AbstractPhpMergeTest
     public function testCleanup()
     {
         $merger = new GitMerge();
-        $class = new \ReflectionClass('PhpMerge\GitMerge');
-        $dir = $class->getProperty("dir");
-        $dir->setAccessible(true);
-        $this->assertNull($dir->getValue($merger), "No temporary file created.");
+        $getDir = \Closure::bind(function () {
+            return $this->dir;
+        }, $merger, GitMerge::class);
+
+        $this->assertNull($getDir(), "No temporary file created.");
 
         $abc = $merger->merge("A\nb\nC", "A\nb\nc", "a\nb\nC");
         $this->assertEquals($abc, "a\nb\nc");
-        $temp = $dir->getValue($merger);
+        $temp = (string) $getDir();
+        unset($getDir);
         $this->assertTrue(is_dir($temp), "Temporary directory created.");
 
         unset($merger);

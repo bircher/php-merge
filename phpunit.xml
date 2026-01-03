@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         bootstrap="test/bootstrap.php">
-
-    <testsuites>
-       <testsuite name="Php Merge">
-         <directory suffix="Test.php">test</directory>
-       </testsuite>
-    </testsuites>
-
-    <filter>
-      <whitelist>
-        <directory suffix=".php">src</directory>
-      </whitelist>
-    </filter>
-
-    <!--<logging>-->
-      <!--<log type="coverage-html" target="build/coverage"/>-->
-      <!--<log type="coverage-clover" target="build/logs/clover.xml"/>-->
-      <!--<log type="junit" target="build/logs/junit.xml"/>-->
-    <!--</logging>-->
-
+<phpunit backupGlobals="false" processIsolation="false" stopOnFailure="false" bootstrap="test/bootstrap.php" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+  <testsuites>
+    <testsuite name="Php Merge">
+      <directory suffix="Test.php">test</directory>
+    </testsuite>
+  </testsuites>
+  <!--<logging>-->
+  <!--<log type="coverage-html" target="build/coverage"/>-->
+  <!--<log type="coverage-clover" target="build/logs/clover.xml"/>-->
+  <!--<log type="junit" target="build/logs/junit.xml"/>-->
+  <!--</logging>-->
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </source>
 </phpunit>
