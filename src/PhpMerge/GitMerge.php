@@ -12,13 +12,17 @@ declare(strict_types=1);
 
 namespace PhpMerge;
 
-use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
-use Symplify\GitWrapper\GitWrapper;
-use Symplify\GitWrapper\Exception\GitException;
+use Gitonomy\Git\Repository;
+use PhpMerge\internal\AbstractMergeBase;
+use PhpMerge\internal\Git\Gitonomy;
+use PhpMerge\internal\Git\GitAbstractionInterface;
+use PhpMerge\internal\Git\GitException;
+use PhpMerge\internal\Git\Symplify;
 use PhpMerge\internal\Line;
 use PhpMerge\internal\Hunk;
-use PhpMerge\internal\AbstractMergeBase;
+use Symplify\GitWrapper\GitWrapper;
 use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 
 /**
  * Class GitMerge merges three strings with git as the backend.
@@ -35,16 +39,9 @@ final class GitMerge extends AbstractMergeBase implements PhpMergeInterface
     /**
      * The git working directory.
      *
-     * @var \Symplify\GitWrapper\GitWorkingCopy|null
+     * @var GitAbstractionInterface
      */
-    protected $git;
-
-    /**
-     * The git wrapper to use for merging.
-     *
-     * @var \Symplify\GitWrapper\GitWrapper
-     */
-    protected $wrapper;
+    protected GitAbstractionInterface $git;
 
     /**
      * The temporary directory in which git can work.
@@ -61,17 +58,29 @@ final class GitMerge extends AbstractMergeBase implements PhpMergeInterface
     /**
      * Constructor, not setting anything up.
      *
-     * @param \Symplify\GitWrapper\GitWrapper|null $wrapper
+     * @param GitAbstractionInterface|\Symplify\GitWrapper\GitWrapper|null $wrapper
      */
-    public function __construct(?GitWrapper $wrapper = null)
+    public function __construct($wrapper = null)
     {
-        if (!$wrapper) {
-            $wrapper = new GitWrapper('git');
-        }
-        $this->wrapper = $wrapper;
         $this->conflict = '';
-        $this->git = null;
         $this->dir = null;
+
+        // Set up the abstraction layer.
+        if ($wrapper instanceof GitAbstractionInterface) {
+            // This allows the user to choose.
+            $this->git = $wrapper;
+        } elseif ($wrapper instanceof GitWrapper) {
+            // This is the backwards compatibility with an argument.
+            $this->git = new Symplify($wrapper);
+        } elseif (class_exists(Repository::class)) {
+            // We use this if no wrapper is passed and the newer library exists.
+            $this->git = new Gitonomy();
+        } elseif (class_exists(GitWrapper::class)) {
+            // This is the backwards compatibility when only the deprecated class exists.
+            $this->git = new Symplify(new GitWrapper('git'));
+        } else {
+            throw new \InvalidArgumentException('No git wrapper library found. use composer to install gitonomy/gitlib or symplify/git-wrapper');
+        }
     }
 
     /**
@@ -135,7 +144,7 @@ final class GitMerge extends AbstractMergeBase implements PhpMergeInterface
         $this->git->add($file);
         $this->git->commit('Add base.');
 
-        if (!in_array('original', $this->git->getBranches()->all())) {
+        if (!$this->git->branchExists('original')) {
             $this->git->checkoutNewBranch('original');
         } else {
             $this->git->checkout('original');
@@ -356,19 +365,14 @@ final class GitMerge extends AbstractMergeBase implements PhpMergeInterface
     protected function setup()
     {
         if (!$this->dir) {
-            // Greate a temporary directory.
+            // Create a temporary directory.
             $tempfile = tempnam(sys_get_temp_dir(), '');
             mkdir($tempfile.'.git');
             if (file_exists($tempfile)) {
                 unlink($tempfile);
             }
             $this->dir = $tempfile.'.git';
-            $this->git = $this->wrapper->init($this->dir);
-        }
-        if ($this->git) {
-            $this->git->config('user.name', 'GitMerge');
-            $this->git->config('user.email', 'gitmerge@php-merge.example.com');
-            $this->git->config('merge.conflictStyle', 'diff3');
+            $this->git->init($this->dir);
         }
     }
 

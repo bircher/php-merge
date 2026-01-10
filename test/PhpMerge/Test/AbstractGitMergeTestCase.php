@@ -20,23 +20,15 @@ use PhpMerge\PhpMergeInterface;
 /**
  * @group git-merge
  */
-class GitMergeTest extends AbstractPhpMergeTestCase
+abstract class AbstractGitMergeTestCase extends AbstractPhpMergeTestCase
 {
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createMerger() : PhpMergeInterface
-    {
-        return new GitMerge();
-    }
 
     /**
      * Test that the git directory is properly cleaned up.
      */
     public function testCleanup()
     {
-        $merger = new GitMerge();
+        $merger = $this->createMerger();
         $getDir = \Closure::bind(function () {
             return $this->dir;
         }, $merger, GitMerge::class);
