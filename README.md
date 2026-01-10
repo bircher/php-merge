@@ -21,8 +21,10 @@ PhpMerge is a small library that solves this problem. There are two classes:
 
 `PhpMerge` uses `SebastianBergmann\Diff\Differ` to get the differences between
 the different versions and calculates the merged text from it.
-`GitMerge` uses `Symplify\GitWrapper\GitWrapper`, writes the text to a temporary file
-and uses the command line git to merge the text.
+`GitMerge` uses `Gitonomy\Git\Repository` or `Symplify\GitWrapper\GitWrapper`,
+writes the text to a temporary file and uses the command line git to branch,
+add and merge the text. Using GitMerge is not recommended for performance
+reasons, but if you want to merge with git then this is the simplest way.
 
 ## Usage
 
@@ -116,8 +118,8 @@ try {
     $conflicting_lines = $conflicts[0]->getLocal();
     // $conflicting_lines === ["normal!!\n"];
     
-    $line_numer_of_conflict = $conflicts[0]->getBaseLine();
-    // $line_numer_of_conflict === 3; // Count starts with 0.
+    $line_number_of_conflict = $conflicts[0]->getBaseLine();
+    // $line_number_of_conflict === 3; // Count starts with 0.
     
     // It is also possible to get the merged version using the first version
     // to resolve conflicts.
@@ -161,6 +163,16 @@ To use the command line git with `GitMerge`:
 {
     "require": {
         "bircher/php-merge": "~4.0",
+        "gitonomy/gitlib": "^1.3"
+    }
+}
+```
+
+or with the deprecated symplify/git-wrapper
+```json
+{
+    "require": {
+        "bircher/php-merge": "~4.0",
         "symplify/git-wrapper": "^9.1|^10.0"
     }
 }
@@ -172,5 +184,6 @@ for installation and usage instructions.
 
 ## Difference to ~3.0
 
-In the ~4.0 version we switch from `cpliakas/git-wrapper` to `symplify/git-wrapper` since the former is deprecated.
+In the ~4.0 version we switch from `cpliakas/git-wrapper`
+to `symplify/git-wrapper` or `gitonomy/gitlib` since the former is deprecated.
 This update means that there is no change when only using `PhpMerge\PhpMerge`.
