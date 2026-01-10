@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.2.0 - 2026-01-10
+
+ * Refactor git wrapper to add gitonomy/gitlib and use it by default if it is available.
+
+## 4.1.0 - 2026-01-04
+
+ * Updated sebastian/diff dependency to "^2.0|^3.0|^4.0|^5.0|^6.0|^7.0"
+ * Testing infrastructure for php versions: '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5'
+
 ## 4.0.0 - 2021-12-27
 
  * Updated sebastian/diff dependency to "^2.0|^3.0|^4.0"

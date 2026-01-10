@@ -182,7 +182,24 @@ Please refer to [Composer's documentation](https://github.com/composer/composer/
 for installation and usage instructions.
 
 
-## Difference to ~3.0
+## Maintenance
+
+This library is feature complete. This means it does the thing I set out to do.
+But of course the code doesn't exist in a vacuum and the php ecosystem keeps
+changing. Most notably Sebastian keeps adopting new php language features in
+our dependency sebastian/diff and drops support for older php versions.
+This means that new major versions are tagged and composer doesn't want to
+install bircher/php-merge on systems that updated sebastian/diff.
+So far it has mostly been pretty easy to just update composer.json, but I have
+not always noticed straight away because this library is not my primary focus,
+and so it would seem that the project is abandoned.
+Over the years people have forked the library as it is their right
+to do under the MIT license. Usually between the holidays and the new year
+I check the forks and merge the contributions back to the library.
+While it would probably be more speedy to contact me, I do appreciate your
+contributions also this way.
+
+### Difference to ~3.0
 
 In the ~4.0 version we switch from `cpliakas/git-wrapper`
 to `symplify/git-wrapper` or `gitonomy/gitlib` since the former is deprecated.
